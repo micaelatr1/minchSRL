@@ -1,0 +1,617 @@
+\documentclass[stu]{apa7}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{times}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+\geometry{margin=1in}
+
+\title{Actividad 4 --- Fase Inicial Scrum \\ Sistema de información web contable sobre recibos de retención y movimientos de caja de la empresa minera MINCH SRL.}
+\author{...}
+\affiliation{...}
+\course{...}
+\professor{...}
+\duedate{...}
+
+\setlength{\parindent}{0.5in}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\maketitle
+
+\section{Contexto del proyecto}
+
+\begin{longtable}{|L{4cm}|L{10cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Nombre del proyecto & SIC-MINCH --- Sistema de Información Contable para MINCH SRL. \\
+\hline
+Procesos a automatizar & 
+\begin{itemize}[nosep]
+    \item Emisión de recibos de retención con cálculo automático de descuentos (RC-IVA, IUE, IT).
+    \item Registro y control de movimientos de caja (ingresos/egresos en efectivo).
+    \item Gestión del libro de bancos con numeración automática por año fiscal.
+    \item Consulta de estados de cuenta por cliente y proveedor.
+    \item Generación de reportes financieros en PDF y Excel.
+\end{itemize} \\
+\hline
+Alcance inicial identificado & 
+\begin{itemize}[nosep]
+    \item Módulo de retenciones con cálculo automático de descuentos.
+    \item Módulo de libro de bancos con numeración por año fiscal (octubre -- septiembre).
+    \item Módulo de caja con numeración por mes calendario.
+    \item Módulo de estados de cuenta (clientes y proveedores).
+    \item Módulo de reportes (PDF y Excel).
+    \item Módulo de administración (usuarios, roles, permisos, maestros).
+\end{itemize} \\
+\hline
+Usuarios clave & Administrador del Sistema, Contador General, Auxiliar Contable, Gerente. \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Visión del producto}
+
+\begin{center}
+\fbox{\begin{minipage}{0.9\textwidth}
+\vspace{0.3cm}
+\textbf{VISIÓN DEL PRODUCTO}
+
+\vspace{0.3cm}
+\textbf{Para} el área contable de la empresa minera MINCH SRL. y su personal administrativo,
+
+\textbf{que} actualmente depende de hojas Excel y procesos manuales para gestionar retenciones, movimientos de caja y libro de bancos,
+
+\textbf{el} SIC-MINCH (Sistema de Información Contable para MINCH SRL.)
+
+\textbf{es} un sistema web moderno basado en Laravel y Livewire
+
+\textbf{que} automatiza el cálculo de retenciones, la numeración correlativa de comprobantes, el registro de movimientos bancarios y de caja, y la generación de reportes financieros,
+
+\textbf{permitiendo} reducir en un 80\% el tiempo dedicado a tareas administrativas manuales, eliminando errores de cálculo y centralizando toda la información financiera en una sola plataforma accesible desde cualquier dispositivo con conexión a internet.
+
+\vspace{0.3cm}
+\textbf{Diferenciadores clave:}
+\begin{itemize}
+    \item Cálculo automático de descuentos en retenciones según normativa boliviana (RC-IVA, IUE, IT).
+    \item Numeración correlativa automática con bloqueo concurrente para evitar duplicados.
+    \item Dashboard ejecutivo con KPIs y gráficos de tendencias en tiempo real.
+    \item Exportación de reportes en PDF y Excel con un solo clic.
+\end{itemize}
+\vspace{0.3cm}
+\end{minipage}}
+\end{center}
+
+\newpage
+
+\section{Personas (User Personas)}
+
+\subsection{Persona 1: Carlos --- Auxiliar Contable}
+
+\begin{longtable}{|L{3.5cm}|L{11cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Atributo} & \textbf{Descripción} \\
+\hline
+Rol & Auxiliar Contable \\
+\hline
+Edad & 28 años \\
+\hline
+Experiencia & 3 años en el área contable de MINCH SRL. \\
+\hline
+Necesidad principal & Registrar movimientos de caja y bancos de forma rápida y sin errores, emitir recibos de retención sin perder tiempo en cálculos manuales. \\
+\hline
+Dolor actual & 
+\begin{itemize}[nosep]
+    \item Dedica aproximadamente el 40\% de su jornada a tareas manuales en Excel.
+    \item
+    \item Debe calcular retenciones con calculadora, propenso a errores.
+    \item Las versiones de Excel se duplican al compartirlas por correo.
+    \item Pierde tiempo buscando registros históricos en archivos desorganizados.
+\end{itemize} \\
+\hline
+Frustración principal & «No puedo confiar al 100\% en los saldos de Excel porque a veces alguien más modificó una fórmula sin avisar.» \\
+\hline
+\end{longtable}
+
+\subsection{Persona 2: Carmen --- Contador General}
+
+\begin{longtable}{|L{3.5cm}|L{11cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Atributo} & \textbf{Descripción} \\
+\hline
+Rol & Contador General \\
+\hline
+Edad & 35 años \\
+\hline
+Experiencia & 8 años en contabilidad, 2 años en MINCH SRL. \\
+\hline
+Necesidad principal & Supervisar retenciones, conciliar libro de bancos, generar estados de cuenta para proveedores y clientes, y producir reportes financieros confiables. \\
+\hline
+Dolor actual & 
+\begin{itemize}[nosep]
+    \item No tiene visibilidad en tiempo real del estado financiero de las cuentas.
+    \item La conciliación bancaria requiere revisar manualmente Excel contra extractos.
+    \item Generar un reporte mensual toma horas de trabajo manual.
+    \item Los estados de cuenta se elaboran uno por uno a pedido.
+\end{itemize} \\
+\hline
+Frustración principal & «Cada vez que el gerente pide un reporte urgente, tengo que dejar todo lo que estoy haciendo para consolidar datos de varios Excel.» \\
+\hline
+\end{longtable}
+
+\subsection{Persona 3: Pedro --- Gerente General}
+
+\begin{longtable}{|L{3.5cm}|L{11cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Atributo} & \textbf{Descripción} \\
+\hline
+Rol & Gerente General / Administrador \\
+\hline
+Edad & 45 años \\
+\hline
+Experiencia & 15 años en el sector minero, fundador de MINCH SRL. \\
+\hline
+Necesidad principal & Acceder a información financiera actualizada para tomar decisiones estratégicas sin depender de terceros. \\
+\hline
+Dolor actual & 
+\begin{itemize}[nosep]
+    \item No puede consultar saldos bancarios ni estado de retenciones sin pedir un reporte al contador.
+    \item Los reportes llegan con retraso y a veces con inconsistencias.
+    \item No tiene un panorama general de la salud financiera de la empresa.
+\end{itemize} \\
+\hline
+Frustración principal & «Necesito saber en tiempo real cómo está la empresa, no esperar al cierre del mes para darme cuenta de que hubo problemas.» \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Definición de \enquote{Listo} (DoR) y \enquote{Terminado} (DoD)}
+
+\subsection{Definición de Ready (DoR)}
+
+Una historia de usuario está lista para ser incluida en un Sprint cuando cumple con los siguientes criterios:
+
+\begin{enumerate}
+    \item Los criterios de aceptación son claros, verificables y están redactados.
+    \item Las dependencias con otras historias están identificadas y resueltas.
+    \item La historia ha sido estimada en Story Points por el equipo.
+    \item La prioridad ha sido asignada por el Product Owner.
+    \item El diseño técnico exploratorio ha sido realizado (spike si aplica).
+    \item Los datos de prueba necesarios están disponibles o se pueden generar.
+\end{enumerate}
+
+\subsection{Definición of Done (DoD)}
+
+Una historia de usuario se considera terminada cuando cumple con los siguientes criterios:
+
+\begin{enumerate}
+    \item El código está implementado y sigue los estándares de codificación del proyecto (Pint Laravel).
+    \item Las pruebas unitarias han sido escritas y pasan correctamente.
+    \item Las pruebas de integración han sido ejecutadas y pasan correctamente.
+    \item El código ha sido revisado por al menos otro miembro del equipo.
+    \item Las funcionalidades han sido probadas en un entorno de testing.
+    \item La base de datos ha sido migrada correctamente (si aplica).
+    \item La documentación técnica mínima ha sido actualizada.
+    \item El Product Owner ha aprobado la funcionalidad en la Sprint Review.
+\end{enumerate}
+
+\newpage
+
+\section{Product Backlog Inicial}
+
+\subsection{Épicas (Epics)}
+
+\begin{longtable}{|C{2cm}|L{5cm}|L{7cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Épica} & \textbf{Descripción} \\
+\hline
+\endhead
+EP-01 & Retenciones & Gestión completa de retenciones: registro, cálculo automático de descuentos, numeración correlativa mensual, generación de recibo PDF y exportación Excel. \\
+\hline
+EP-02 & Libro de bancos & Gestión de movimientos bancarios por cuenta, numeración automática por año fiscal, cálculo de saldos, generación de recibos PDF. \\
+\hline
+EP-03 & Caja & Gestión de movimientos de caja (ingresos/egresos), numeración automática por mes calendario, cálculo de saldos, generación de recibos PDF. \\
+\hline
+EP-04 & Estados de cuenta & Consulta de movimientos y saldos por cliente y proveedor, generación de PDF. \\
+\hline
+EP-05 & Reportes y dashboard & Reportes de retenciones, caja y banco con filtros; exportación PDF y Excel; dashboard ejecutivo con KPIs y gráficos. \\
+\hline
+EP-06 & Administración & Gestión de usuarios, roles, permisos, proveedores, clientes, cuentas bancarias e impuestos. \\
+\hline
+\end{longtable}
+
+\newpage
+
+\subsection{Historias de usuario}
+
+\subsubsection{Épica EP-01: Retenciones}
+
+\begin{longtable}{|L{0.8cm}|L{4.5cm}|L{3.5cm}|L{2cm}|L{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia} & \textbf{Criterios de aceptación} & \textbf{Prioridad (MoSCoW)} & \textbf{SP} \\
+\hline
+\endhead
+HU-01 & Como Contador, quiero registrar una retención seleccionando el tipo (Servicios/Bienes) y el monto base para que el sistema calcule automáticamente los descuentos aplicables. & 
+\begin{itemize}[nosep]
+    \item Formulario con tipo (S/G), proveedor, monto, fecha, descripción.
+    \item Al guardar, el sistema ejecuta el cálculo automático de descuentos.
+    \item Muestra mensaje de confirmación con el código generado.
+    \item Valida que el monto esté entre 10.00 y 999,999,999.99.
+\end{itemize} & Indispensable & 8 \\
+\hline
+HU-02 & Como Contador, quiero que el sistema calcule automáticamente los descuentos de una retención según las tasas configuradas para que no tenga que hacerlo manualmente. & 
+\begin{itemize}[nosep]
+    \item Para Servicios: aplica RC-IVA 13\% + IT 3\%.
+    \item Para Bienes: aplica IUE 5\% + IT 3\%.
+    \item Fórmula: total = monto / (1 - suma\_tasas/100).
+    \item Cada descuento = total * tasa / 100.
+\end{itemize} & Indispensable & 5 \\
+\hline
+HU-03 & Como Contador, quiero que el sistema asigne automáticamente un código correlativo mensual a cada retención para evitar duplicados. & 
+\begin{itemize}[nosep]
+    \begin{minipage}[t]{4.5cm}
+    \item Código secuencial por mes calendario.
+    \item Usa lockForUpdate() para evitar concurrencia.
+    \item Formato: ABR-001, ABR-002, etc.
+    \end{minipage} & Indispensable & 3 \\
+\hline
+\endhead
+HU-04 & Como Contador, quiero generar un recibo de retención en PDF para entregarlo al proveedor. & 
+\begin{itemize}[nosep]
+    \item Botón PDF en cada fila de la lista de retenciones.
+    \item El PDF incluye: datos del proveedor, montos, descuentos, código, fecha.
+    \item Formato A4, márgenes 15mm.
+    \item Se visualiza en el navegador para imprimir o descargar.
+\end{itemize} & Indispensable & 5 \\
+\hline
+HU-05 & Como Contador, quiero exportar las retenciones de un mes a Excel para enviarlo a Impuestos Nacionales. & 
+\begin{itemize}[nosep]
+    \item Seleccionar mes y tipo (S/G).
+    \item Exporta a Excel con formato profesional.
+    \item Incluye: proveedor, monto, descuentos, código, fecha.
+\end{itemize} & Importante & 5 \\
+\hline
+\end{longtable}
+
+\newpage
+
+\subsubsection{Épica EP-02: Libro de bancos}
+
+\begin{longtable}{|L{0.8cm}|L{4.5cm}|L{3.5cm}|L{2cm}|L{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia} & \textbf{Criterios de aceptación} & \textbf{Prioridad (MoSCoW)} & \textbf{SP} \\
+\hline
+\endhead
+HU-06 & Como Auxiliar Contable, quiero registrar un movimiento bancario (débito/crédito) asociado a una cuenta para llevar el control de ingresos y egresos. & 
+\begin{itemize}[nosep]
+    \item Seleccionar cuenta bancaria, tipo (D/C), proveedor, monto, fecha.
+    \item Tipo de pago: Transferencia (T) o Cheque (CH).
+    \item Si es CH, el número de cheque es obligatorio.
+    \item El sistema muestra el saldo actualizado después del registro.
+\end{itemize} & Indispensable & 8 \\
+\hline
+HU-07 & Como sistema, quiero numerar automáticamente cada transacción bancaria por año fiscal (octubre -- septiembre) para mantener la correlatividad. & 
+\begin{itemize}[nosep]
+    \item Número secuencial por tipo (D/C) dentro del año fiscal.
+    \item Año fiscal: octubre a septiembre.
+    \item Usa lockForUpdate() para evitar duplicados.
+    \item Formato: D-000001, C-000001.
+\end{itemize} & Indispensable & 3 \\
+\hline
+HU-08 & Como Auxiliar Contable, quiero ver el libro de bancos de un mes específico con el saldo corriente en cada fila para conocer el estado de la cuenta. & 
+\begin{itemize}[nosep]
+    \item Vista mensual por cuenta bancaria.
+    \item Columnas: fecha, descripción, débito, crédito, saldo.
+    \item Saldo calculado con función de ventana SUM OVER.
+    \item Filtro por mes y proveedor.
+\end{itemize} & Indispensable & 5 \\
+\hline
+HU-09 & Como Auxiliar Contable, quiero generar un recibo de banco en PDF para entregar al proveedor. & 
+\begin{itemize}[nosep]
+    \item Botón PDF en cada movimiento.
+    \item Formato carta (215.9 x 279.4 mm), márgenes 0.
+    \item Incluye monto en literal (español) usando NumberHelper.
+\end{itemize} & Importante & 3 \\
+\hline
+\end{longtable}
+
+\subsubsection{Épica EP-03: Caja}
+
+\begin{longtable}{|L{0.8cm}|L{4.5cm}|L{3.5cm}|L{2cm}|L{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia} & \textbf{Criterios de aceptación} & \textbf{Prioridad (MoSCoW)} & \textbf{SP} \\
+\hline
+\endhead
+HU-10 & Como Auxiliar Contable, quiero registrar un movimiento de caja (ingreso/egreso) para controlar el efectivo. & 
+\begin{itemize}[nosep]
+    \item Seleccionar tipo (D/C), proveedor, monto, fecha, descripción.
+    \item El sistema asigna número de caja automático por mes.
+    \item Al ser el primer movimiento del mes, calcula saldo anterior.
+\end{itemize} & Indispensable & 8 \\
+\hline
+HU-11 & Como sistema, quiero numerar automáticamente cada movimiento de caja por mes calendario para mantener la correlatividad. & 
+\begin{itemize}[nosep]
+    \item Número secuencial por tipo (D/C) dentro del mes calendario.
+    \item Usa lockForUpdate() para evitar duplicados.
+    \item Formato: DOC-000001.
+\end{itemize} & Indispensable & 3 \\
+\hline
+HU-12 & Como Auxiliar Contable, quiero generar un recibo de caja en PDF para entregar al proveedor. & 
+\begin{itemize}[nosep]
+    \item Botón PDF en cada movimiento de caja.
+    \item Formato carta, márgenes 0.
+    \item Incluye monto en literal y datos del proveedor.
+\end{itemize} & Importante & 3 \\
+\hline
+\end{longtable}
+
+\newpage
+
+\subsubsection{Épica EP-04: Estados de cuenta}
+
+\begin{longtable}{|L{0.8cm}|L{4.5cm}|L{3.5cm}|L{2cm}|L{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia} & \textbf{Criterios de aceptación} & \textbf{Prioridad (MoSCoW)} & \textbf{SP} \\
+\hline
+\endhead
+HU-13 & Como Contador, quiero consultar el estado de cuenta de un proveedor con el detalle de todos sus movimientos y saldo corriente para conocer su situación financiera. & 
+\begin{itemize}[nosep]
+    \item Pestañas para seleccionar entre proveedores y clientes.
+    \item Lista de titulares con saldo actual (débito -- crédito).
+    \item Al seleccionar uno, muestra movimientos paginados con saldo corriente.
+    \item Totales: suma débitos, suma créditos, saldo final.
+\end{itemize} & Indispensable & 8 \\
+\hline
+HU-14 & Como Contador, quiero generar un PDF del estado de cuenta de un proveedor o cliente para entregárselo. & 
+\begin{itemize}[nosep]
+    \item Botón PDF en la vista de estado de cuenta.
+    \item Formato A4, márgenes 8mm.
+    \item Incluye: datos del titular, todos los movimientos, saldo corriente, totales.
+\end{itemize} & Importante & 3 \\
+\hline
+\end{longtable}
+
+\subsubsection{Épica EP-05: Reportes y dashboard}
+
+\begin{longtable}{|L{0.8cm}|L{4.5cm}|L{3.5cm}|L{2cm}|L{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia} & \textbf{Criterios de aceptación} & \textbf{Prioridad (MoSCoW)} & \textbf{SP} \\
+\hline
+\endhead
+HU-15 & Como Contador, quiero generar reportes de retenciones, caja o banco con filtros por fecha y tipo para analizar la información financiera. & 
+\begin{itemize}[nosep]
+    \item Seleccionar tipo de reporte (retenciones, caja, banco).
+    \item Filtros: rango de fechas, tipo de movimiento, cuenta (si aplica).
+    \item Tabla con resultados y saldo corriente.
+    \item Exportable a PDF y Excel.
+\end{itemize} & Indispensable & 8 \\
+\hline
+HU-16 & Como Gerente, quiero ver un dashboard ejecutivo con KPIs y gráficos para conocer el estado financiero de la empresa en tiempo real. & 
+\begin{itemize}[nosep]
+    \item Tarjetas KPI: total proveedores, movimientos, retenciones del mes.
+    \item Saldo de caja y saldo bancario consolidado.
+    \item Gráficos: tendencia 12 meses, balance por cuenta, retenciones S vs G.
+    \item Tablas de movimientos y retenciones recientes.
+\end{itemize} & Importante & 8 \\
+\hline
+\end{longtable}
+
+\subsubsection{Épica EP-06: Administración}
+
+\begin{longtable}{|L{0.8cm}|L{4.5cm}|L{3.5cm}|L{2cm}|L{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia} & \textbf{Criterios de aceptación} & \textbf{Prioridad (MoSCoW)} & \textbf{SP} \\
+\hline
+\endhead
+HU-17 & Como Administrador, quiero gestionar usuarios del sistema (CRUD) para controlar quién accede al sistema. & 
+\begin{itemize}[nosep]
+    \item CRUD completo: crear, editar, eliminar, listar.
+    \item Campos: nombre, apellido, email, CI, teléfono.
+    \item Asignación de roles.
+    \item Contraseña por defecto: número de CI.
+\end{itemize} & Indispensable & 5 \\
+\hline
+HU-18 & Como Administrador, quiero gestionar roles y asignar permisos a cada rol para controlar el acceso a las funcionalidades. & 
+\begin{itemize}[nosep]
+    \item CRUD de roles.
+    \item Lista de 35 permisos disponibles.
+    \item Asignar/revocar permisos con sincronización.
+    \item El rol Administrador está protegido.
+\end{itemize} & Indispensable & 5 \\
+\hline
+HU-19 & Como Contador, quiero gestionar proveedores (CRUD) para tenerlos registrados y poder asociarlos a retenciones y movimientos. & 
+\begin{itemize}[nosep]
+    \item CRUD completo.
+    \item Búsqueda por CI o nombre.
+    \item Los datos se almacenan en Person + Supplier.
+    \item El CI debe ser único.
+\end{itemize} & Indispensable & 3 \\
+\hline
+HU-20 & Como Contador, quiero gestionar clientes (CRUD) para tenerlos registrados y poder consultar sus estados de cuenta. & 
+\begin{itemize}[nosep]
+    \item CRUD completo.
+    \item Posibilidad de adjuntar archivo (contrato).
+    \item Asociación opcional a cooperativa.
+\end{itemize} & Indispensable & 3 \\
+\hline
+HU-21 & Como Contador, quiero gestionar cuentas bancarias (CRUD) para que los movimientos se asocien a la cuenta correcta. & 
+\begin{itemize}[nosep]
+    \item CRUD completo.
+    \item Campos: nombre, número de cuenta, iniciales, moneda (BOB/USD/EUR).
+\end{itemize} & Indispensable & 3 \\
+\hline
+HU-22 & Como Contador, quiero gestionar impuestos/tasas (CRUD) para configurar los porcentajes de retención. & 
+\begin{itemize}[nosep]
+    \item CRUD completo.
+    \item Campos: nombre, iniciales, porcentaje, tipo (S/G/A).
+    \item Seed inicial: RC-IVA 13\%, IUE 5\%, IT 3\%.
+\end{itemize} & Indispensable & 3 \\
+\hline
+\end{longtable}
+
+\newpage
+
+\subsection{Resumen del Product Backlog}
+
+\begin{longtable}{|L{2cm}|L{3cm}|L{3cm}|L{3cm}|C{2cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Épica} & \textbf{Indispensable} & \textbf{Importante} & \textbf{Deseable} & \textbf{Total SP} \\
+\hline
+\endhead
+EP-01: Retenciones & HU-01 (8), HU-02 (5), HU-03 (3), HU-04 (5) & HU-05 (5) & --- & 26 \\
+\hline
+EP-02: Libro de bancos & HU-06 (8), HU-07 (3), HU-08 (5) & HU-09 (3) & --- & 19 \\
+\hline
+EP-03: Caja & HU-10 (8), HU-11 (3) & HU-12 (3) & --- & 14 \\
+\hline
+EP-04: Estados de cuenta & HU-13 (8) & HU-14 (3) & --- & 11 \\
+\hline
+EP-05: Reportes y dashboard & HU-15 (8) & HU-16 (8) & --- & 16 \\
+\hline
+EP-06: Administración & HU-17 (5), HU-18 (5), HU-19 (3), HU-20 (3), HU-21 (3), HU-22 (3) & --- & --- & 22 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Totales} & \textbf{17 historias} & \textbf{5 historias} & \textbf{0} & \textbf{108 SP} \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Sprint Planning --- Sprint 1}
+
+\subsection{Datos del Sprint}
+
+\begin{longtable}{|L{4cm}|L{10cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Duración del Sprint & 2 semanas (10 días hábiles) \\
+\hline
+Equipo & 4 desarrolladores + 1 Product Owner + 1 Scrum Master \\
+\hline
+Capacidad del equipo & 60 SP \newline (4 personas × 10 días × 0.75 factor enfoque = 30 días-hombre ajustados) \\
+\hline
+Objetivo del Sprint 1 & \textbf{«Tener la funcionalidad básica de administración del sistema, gestión de maestros y retenciones con cálculo automático, permitiendo al Contador registrar una retención completa y generar su recibo PDF.»} \\
+\hline
+\end{longtable}
+
+\subsection{Historias seleccionadas}
+
+\begin{longtable}{|C{1cm}|L{4cm}|L{2cm}|L{3cm}|L{2cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia} & \textbf{Épica} & \textbf{Descripción breve} & \textbf{SP} \\
+\hline
+\endhead
+HU-21 & Gestionar cuentas bancarias & EP-06 & CRUD de cuentas bancarias (maestro) & 3 \\
+\hline
+HU-22 & Gestionar impuestos/tasas & EP-06 & CRUD de impuestos con tasas (maestro) & 3 \\
+\hline
+HU-19 & Gestionar proveedores & EP-06 & CRUD de proveedores (maestro) & 3 \\
+\hline
+HU-17 & Gestionar usuarios & EP-06 & CRUD de usuarios del sistema & 5 \\
+\hline
+HU-18 & Gestionar roles y permisos & EP-06 & Asignación de permisos a roles & 5 \\
+\hline
+HU-01 & Registrar retención con cálculo automático & EP-01 & Formulario + cálculo de descuentos & 8 \\
+\hline
+HU-02 & Calcular descuentos automáticamente & EP-01 & Lógica de negocio de retenciones & 5 \\
+\hline
+HU-03 & Numerar retención automáticamente & EP-01 & Código correlativo mensual & 3 \\
+\hline
+HU-04 & Generar recibo de retención PDF & EP-01 & PDF con mPDF & 5 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Total} & \textbf{9 historias} & & & \textbf{40 SP} \\
+\hline
+\end{longtable}
+
+\subsection{Tareas de descomposición}
+
+\subsubsection{HU-01: Registrar retención con cálculo automático (8 SP)}
+
+\begin{enumerate}
+    \item Crear tabla retentions (migración) con campos: id, type (S/G), amount, date, description, summary, code, status, supplier\_id, user\_id.
+    \item Crear tabla discounts (migración) con campos: id, amount, taxe\_id, retention\_id.
+    \item Implementar modelo Retention con relaciones: belongsTo Supplier, hasMany Discount.
+    \item Implementar modelo Discount con relaciones: belongsTo Retention, belongsTo Taxe.
+    \item Desarrollar Livewire component RetentionComponentForm con formulario de creación/edición.
+    \item Integrar búsqueda de proveedores (SupplierSearch) en el formulario.
+    \item Implementar validaciones: monto entre 10.00 y 999,999,999.99, tipo obligatorio, proveedor obligatorio.
+    \item Implementar método syncDiscounts() que ejecuta HU-02 y HU-03 al guardar.
+    \item Desarrollar RetentionComponent con lista paginada, filtro por mes y tipo.
+    \item Pruebas unitarias de creación de retención y validaciones.
+\end{enumerate}
+
+\subsubsection{HU-02: Calcular descuentos automáticamente (5 SP)}
+
+\begin{enumerate}
+    \item Implementar lógica de cálculo: total = amount / (1 - sum(tax\_rates)/100).
+    \item Calcular descuento individual: discount = total * tax\_rate / 100.
+    \item Crear registros Discount por cada impuesto aplicable según el tipo (S/G).
+    \item Para Servicios: RC-IVA (13\%) + IT (3\%).
+    \item Para Bienes: IUE (5\%) + IT (3\%).
+    \item Pruebas unitarias con diferentes montos y tipos.
+\end{enumerate}
+
+\subsubsection{HU-03: Numerar retención automáticamente (3 SP)}
+
+\begin{enumerate}
+    \item Implementar método nextRetentionCode() en RetentionComponentForm o servicio.
+    \item Consultar el último código del mes actual con lockForUpdate().
+    \item Asignar código = último + 1, formatear como MES-XXX.
+    \item Pruebas unitarias de concurrencia y secuencialidad.
+\end{enumerate}
+
+\subsubsection{HU-04: Generar recibo de retención PDF (5 SP)}
+
+\begin{enumerate}
+    \item Crear vista Blade PDF/retentionForm.blade.php con el formato del recibo.
+    \item Implementar método PdfController::retentionForm().
+    \item Configurar mPDF con fuente UTF-8, tamaño A4, márgenes 15mm.
+    \item Mostrar datos: proveedor, monto, descuentos, total, código, fecha en español.
+    \item Usar NumberHelper::toLiteral() para el monto en literal.
+    \item Enlace en RetentionComponent para generar PDF de cada retención.
+\end{enumerate}
+
+\subsection{Criterios de salida del Sprint 1}
+
+\begin{itemize}
+    \item El Contador puede registrar una retención completa con cálculo automático de descuentos.
+    \item El sistema asigna el código correlativo mensual automáticamente.
+    \item El Contador puede generar y descargar el recibo de retención en PDF.
+    \item El Administrador puede gestionar usuarios, roles, permisos, proveedores, cuentas bancarias e impuestos.
+    \item Todas las historias cumplen la Definición de Terminado (DoD).
+    \item El Product Owner aprueba el incremento en la Sprint Review.
+\end{itemize}
+
+\end{document}

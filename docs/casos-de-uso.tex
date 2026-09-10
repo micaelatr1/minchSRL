@@ -1,0 +1,923 @@
+\documentclass[stu]{apa7}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{times}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{tabularx}
+
+\geometry{margin=1in}
+
+\title{Casos de Uso --- Sistema de información web contable sobre recibos de retención y movimientos de caja de la empresa minera MINCH SRL.}
+\author{...}
+\affiliation{...}
+\course{...}
+\professor{...}
+\duedate{...}
+
+\setlength{\parindent}{0.5in}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\maketitle
+
+\section{Perfiles de usuario}
+
+\begin{longtable}{|L{3.5cm}|L{6cm}|L{3cm}|L{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Actor} & \textbf{Responsabilidad clave (Dominio)} & \textbf{Nivel de acceso} & \textbf{Rol en el sistema} \\
+\hline
+\endhead
+Administrador del Sistema & Gestión de infraestructura, seguridad, creación de usuarios, asignación de roles y permisos. & Total (Root) & Admin \\
+\hline
+Contador General & Gestión de retenciones (cálculo automático), conciliación de libro de bancos, estados de cuenta por cliente y proveedor, supervisión de caja. & Estratégico & Contador \\
+\hline
+Auxiliar Contable & Registro diario de movimientos de caja, emisión de recibos de retención, ingreso de movimientos bancarios. & Operativo & Auxiliar \\
+\hline
+Gerente / Administrador & Visualización de dashboard ejecutivo, generación de reportes PDF y Excel, toma de decisiones financieras. & Estratégico & Gerente \\
+\hline
+Proveedor & Destinatario de recibos de retención y estados de cuenta (información consultada y entregada por el personal). & Externo & --- \\
+\hline
+Cliente & Destinatario de estados de cuenta. & Externo & --- \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Diagrama de casos de uso}
+
+\subsection{Convenciones}
+
+Para la elaboración del diagrama de casos de uso, se utilizan las siguientes relaciones:
+
+\begin{itemize}
+    \item \textbf{Asociación:} Línea continua entre actor y caso de uso. Indica que el actor participa en ese caso de uso.
+    \item \textbf{«include»:} Relación obligatoria. Un caso de uso base incluye siempre la funcionalidad del caso incluido. Se dibuja como flecha discontinua con estereotipo «include» desde el caso base hacia el caso incluido.
+    \item \textbf{«extend»:} Relación opcional. Un caso de uso extiende al caso base bajo ciertas condiciones. Se dibuja como flecha discontinua con estereotipo «extend» desde el caso extendido hacia el caso base.
+    \item \textbf{Generalización:} Flecha con punta vacía de un actor especializado hacia un actor general.
+\end{itemize}
+
+\subsection{Módulo de autenticación}
+
+\begin{longtable}{|L{3cm}|L{4cm}|L{4cm}|L{4cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Actor} & \textbf{Caso de uso} & \textbf{Tipo de interacción} & \textbf{Relacionado con} \\
+\hline
+\endhead
+Todos los actores & Iniciar sesión & Asociación directa & --- \\
+\hline
+\end{longtable}
+
+\textbf{Instrucciones para el diagrama:}
+Dibujar un rectángulo etiquetado \textbf{«Sistema MINCH SRL»}. Fuera del rectángulo, colocar los actores: Administrador del Sistema, Contador General, Auxiliar Contable, Gerente. Dentro del rectángulo, dibujar un óvalo etiquetado \textbf{«Iniciar sesión»}. Conectar cada actor a este óvalo con una línea continua.
+
+\subsection{Módulo de retenciones}
+
+\begin{longtable}{|L{3cm}|L{5cm}|L{4cm}|L{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Actor} & \textbf{Caso de uso} & \textbf{Tipo de interacción} & \textbf{Relacionado con} \\
+\hline
+\endhead
+Contador General & Gestionar retenciones & Asociación directa & --- \\
+\hline
+--- & Calcular descuentos automáticamente & «include» & Gestionar retenciones \\
+\hline
+Contador General & Generar recibo de retención PDF & «extend» & Gestionar retenciones \\
+\hline
+Contador General & Exportar retenciones a Excel & «extend» & Gestionar retenciones \\
+\hline
+\end{longtable}
+
+\textbf{Instrucciones para el diagrama:}
+Dentro del sistema, dibujar un óvalo \textbf{«Gestionar retenciones»}. Conectar al actor Contador General con línea continua. Dibujar otro óvalo \textbf{«Calcular descuentos automáticamente»} y conectar con flecha discontinua «include» desde \textbf{Gestionar retenciones} hacia \textbf{Calcular descuentos}. Dibujar óvalos \textbf{«Generar recibo de retención PDF»} y \textbf{«Exportar retenciones a Excel»}, cada uno con flecha discontinua «extend» desde ellos hacia \textbf{Gestionar retenciones}.
+
+\subsection{Módulo de libro de bancos}
+
+\begin{longtable}{|L{3cm}|L{5cm}|L{4cm}|L{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Actor} & \textbf{Caso de uso} & \textbf{Tipo de interacción} & \textbf{Relacionado con} \\
+\hline
+\endhead
+Auxiliar Contable & Gestionar movimientos bancarios & Asociación directa & --- \\
+\hline
+--- & Numerar transacción automáticamente & «include» & Gestionar movimientos bancarios \\
+\hline
+Auxiliar Contable & Generar recibo de banco PDF & «extend» & Gestionar movimientos bancarios \\
+\hline
+Contador General & Gestionar cuentas bancarias & Asociación directa & --- \\
+\hline
+\end{longtable}
+
+\textbf{Instrucciones para el diagrama:}
+Dibujar óvalos \textbf{«Gestionar movimientos bancarios»} (conectado a Auxiliar Contable), \textbf{«Numerar transacción automáticamente»} (con «include» desde Gestionar movimientos bancarios), \textbf{«Generar recibo de banco PDF»} (con «extend» hacia Gestionar movimientos bancarios), y \textbf{«Gestionar cuentas bancarias»} (conectado a Contador General).
+
+\subsection{Módulo de caja}
+
+\begin{longtable}{|L{3cm}|L{5cm}|L{4cm}|L{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Actor} & \textbf{Caso de uso} & \textbf{Tipo de interacción} & \textbf{Relacionado con} \\
+\hline
+\endhead
+Auxiliar Contable & Gestionar movimientos de caja & Asociación directa & --- \\
+\hline
+--- & Numerar movimiento de caja automáticamente & «include» & Gestionar movimientos de caja \\
+\hline
+Auxiliar Contable & Generar recibo de caja PDF & «extend» & Gestionar movimientos de caja \\
+\hline
+\end{longtable}
+
+\textbf{Instrucciones para el diagrama:}
+Dibujar óvalo \textbf{«Gestionar movimientos de caja»} (conectado a Auxiliar Contable), \textbf{«Numerar movimiento de caja automáticamente»} (con «include»), \textbf{«Generar recibo de caja PDF»} (con «extend»).
+
+\subsection{Módulo de estados de cuenta}
+
+\begin{longtable}{|L{3cm}|L{5cm}|L{4cm}|L{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Actor} & \textbf{Caso de uso} & \textbf{Tipo de interacción} & \textbf{Relacionado con} \\
+\hline
+\endhead
+Contador General & Consultar estado de cuenta & Asociación directa & --- \\
+\hline
+Contador General & Generar PDF estado de cuenta & «extend» & Consultar estado de cuenta \\
+\hline
+\end{longtable}
+
+\textbf{Instrucciones para el diagrama:}
+Dibujar óvalo \textbf{«Consultar estado de cuenta»} (conectado a Contador General), \textbf{«Generar PDF estado de cuenta»} (con «extend» hacia Consultar estado de cuenta). Los actores externos Proveedor y Cliente se colocan fuera del sistema sin conexión directa a casos de uso (reciben la información a trav\'es del Contador).
+
+\subsection{Módulo de reportes}
+
+\begin{longtable}{|L{3cm}|L{5cm}|L{4cm}|L{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Actor} & \textbf{Caso de uso} & \textbf{Tipo de interacción} & \textbf{Relacionado con} \\
+\hline
+\endhead
+Contador General & Generar reportes & Asociación directa & --- \\
+\hline
+Gerente & Visualizar dashboard & Asociación directa & --- \\
+\hline
+Contador General / Gerente & Exportar reporte a Excel & «extend» & Generar reportes \\
+\hline
+\end{longtable}
+
+\textbf{Instrucciones para el diagrama:}
+Dibujar óvalo \textbf{«Generar reportes»} (conectado a Contador General), \textbf{«Visualizar dashboard»} (conectado a Gerente), \textbf{«Exportar reporte a Excel»} (con «extend» hacia Generar reportes).
+
+\subsection{Módulo de administración}
+
+\begin{longtable}{|L{3cm}|L{5cm}|L{4cm}|L{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Actor} & \textbf{Caso de uso} & \textbf{Tipo de interacción} & \textbf{Relacionado con} \\
+\hline
+\endhead
+Administrador del Sistema & Gestionar usuarios & Asociación directa & --- \\
+\hline
+Administrador del Sistema & Gestionar roles y permisos & Asociación directa & --- \\
+\hline
+Contador General & Gestionar proveedores & Asociación directa & --- \\
+\hline
+Contador General & Gestionar clientes & Asociación directa & --- \\
+\hline
+Contador General & Gestionar impuestos/tasas & Asociación directa & --- \\
+\hline
+\end{longtable}
+
+\textbf{Instrucciones para el diagrama:}
+Dibujar los óvalos correspondientes en el área de administración del sistema. Conectar cada uno al actor respectivo. No existen relaciones «include» ni «extend» entre estos casos de uso, son independientes.
+
+\newpage
+
+\section{Especificación de casos de uso detallados}
+
+\subsection{Módulo de autenticación}
+
+\subsubsection{Caso de Uso CU-01: Iniciar sesión}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Iniciar sesión \\
+\hline
+Actor & Todos los actores (Administrador, Contador, Auxiliar, Gerente) \\
+\hline
+Descripción & El usuario ingresa al sistema proporcionando sus credenciales (email y contraseña). El sistema verifica la identidad y redirige al dashboard según el rol y los permisos asignados. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Ingresa a la URL del sistema. \\
+\hline
+2 & Introduce su dirección de email y contraseña. \\
+\hline
+3 & Presiona el botón \textbf{Iniciar sesión}. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+4 & Valida que el email y la contraseña sean correctos. \\
+\hline
+5 & Verifica que el usuario tenga un rol activo con permisos asignados. \\
+\hline
+6 & Redirige al dashboard principal del sistema. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo alterno}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Sistema} \\
+\hline
+4.1 & Si el email o la contraseña son incorrectos, muestra el mensaje: \textit{«Estas credenciales no coinciden con nuestros registros.»} \\
+\hline
+4.2 & Si la cuenta está bloqueada o deshabilitada, muestra: \textit{«Cuenta deshabilitada. Contacte al administrador.»} \\
+\hline
+4.3 & Si el usuario no tiene ningún rol asignado, muestra: \textit{«Acceso denegado. No tiene permisos asignados.»} \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} El usuario debe estar registrado en el sistema con un email válido y una contraseña encriptada. Debe tener al menos un rol con permisos asignados.
+
+\textbf{Postcondición:} El usuario accede al sistema con una sesión activa. Se registra la fecha y hora del último acceso.
+
+\newpage
+
+\subsection{Módulo de retenciones}
+
+\subsubsection{Caso de Uso CU-02: Gestionar retenciones}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Gestionar retenciones \\
+\hline
+Actor & Contador General \\
+\hline
+Descripción & El Contador registra, modifica, consulta o elimina retenciones. Cada retención corresponde a un proveedor sin NIT al que se le retiene un porcentaje según el tipo de bien o servicio. El sistema calcula automáticamente los descuentos aplicables (RC-IVA, IUE, IT) y genera el código correlativo mensual. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Ingresa al módulo de retenciones. \\
+\hline
+2 & Presiona el botón \textbf{Nueva retención}. \\
+\hline
+3 & Selecciona el tipo de retención (Servicios o Bienes). \\
+\hline
+4 & Busca y selecciona un proveedor por CI o nombre. \\
+\hline
+5 & Ingresa el monto base de la retención. \\
+\hline
+6 & Ingresa la fecha, descripción y resumen. \\
+\hline
+7 & Presiona el botón \textbf{Guardar}. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+8 & Ejecuta \textbf{Calcular descuentos automáticamente} (CU-03) para obtener los descuentos aplicables según las tasas configuradas para el tipo de retención. \\
+\hline
+9 & Genera el código correlativo automático para el mes en curso. \\
+\hline
+10 & Guarda la retención, los descuentos calculados y el código en la base de datos. \\
+\hline
+11 & Muestra un mensaje de confirmación: \textit{«Retención registrada correctamente.»} \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo alterno}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Sistema} \\
+\hline
+7.1 & Si el monto ingresado está fuera del rango permitido (10.00 -- 999,999,999.99), muestra: \textit{«El monto debe estar entre 10.00 y 999,999,999.99.»} \\
+\hline
+7.2 & Si no selecciona un proveedor, muestra: \textit{«Debe seleccionar un proveedor.»} \\
+\hline
+7.3 & Si el proveedor no existe, el sistema permite registrarlo automáticamente mediante la búsqueda por CI. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} El Contador debe haber iniciado sesión. Deben existir impuestos/tasas configurados (RC-IVA, IUE, IT). Debe existir al menos un proveedor registrado.
+
+\textbf{Postcondición:} La retención queda registrada con su código correlativo, los descuentos calculados y el estado pendiente. Se puede generar el recibo PDF (CU-04).
+
+\newpage
+
+\subsubsection{Caso de Uso CU-03: Calcular descuentos automáticamente}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Calcular descuentos automáticamente \\
+\hline
+Actor & --- (Incluido en CU-02) \\
+\hline
+Descripción & Este caso de uso es ejecutado internamente por \textbf{Gestionar retenciones} (CU-02). Calcula los descuentos aplicables a una retención según las tasas impositivas configuradas para el tipo de bien o servicio. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Sistema} \\
+\hline
+1 & Recibe el tipo de retención (S = Servicios o G = Bienes) y el monto base. \\
+\hline
+2 & Consulta las tasas de impuestos aplicables: para Servicios (RC-IVA 13\% + IT 3\%), para Bienes (IUE 5\% + IT 3\%). \\
+\hline
+3 & Calcula el total base: \textit{total = monto / (1 - suma\_tasas / 100)}. \\
+\hline
+4 & Calcula cada descuento individual: \textit{descuento = total * tasa / 100}. \\
+\hline
+5 & Retorna los descuentos calculados para ser almacenados junto con la retención. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} Las tasas de impuestos deben estar configuradas en el sistema. El tipo de retención (S/G) debe ser válido.
+
+\textbf{Postcondición:} Se retornan los valores calculados de descuentos. No se persiste nada por sí mismo; los resultados son utilizados por CU-02.
+
+\newpage
+
+\subsubsection{Caso de Uso CU-04: Generar recibo de retención PDF}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Generar recibo de retención PDF \\
+\hline
+Actor & Contador General \\
+\hline
+Descripción & El Contador genera un documento PDF con el detalle de una retención específica, incluyendo datos del proveedor, montos, descuentos calculados y el código de retención. El PDF se visualiza en el navegador y puede imprimirse o descargarse. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Se encuentra en la lista de retenciones (CU-02). \\
+\hline
+2 & Presiona el botón \textbf{PDF} en la fila de una retención específica. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+3 & Recupera los datos completos de la retención, incluyendo proveedor, descuentos y código. \\
+\hline
+4 & Renderiza la vista PDF con el formato establecido (tamaño A4, márgenes 15mm). \\
+\hline
+5 & Genera el documento PDF utilizando la librería mPDF. \\
+\hline
+6 & Muestra el PDF en el navegador para su visualización, impresión o descarga. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} La retención debe existir y estar registrada con todos sus datos.
+
+\textbf{Postcondición:} El PDF se muestra en pantalla. No se modifica ningún dato en la base de datos.
+
+\newpage
+
+\subsection{Módulo de libro de bancos}
+
+\subsubsection{Caso de Uso CU-05: Gestionar movimientos bancarios}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Gestionar movimientos bancarios \\
+\hline
+Actor & Auxiliar Contable \\
+\hline
+Descripción & El Auxiliar registra, modifica, consulta o elimina movimientos bancarios (ingresos y egresos) asociados a una cuenta bancaria. El sistema asigna automáticamente el número de transacción correlativo por año fiscal (octubre -- septiembre) y tipo de movimiento. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Ingresa al módulo de libro de bancos y selecciona una cuenta bancaria y un mes. \\
+\hline
+2 & Presiona el botón \textbf{Nuevo movimiento}. \\
+\hline
+3 & Selecciona el tipo de movimiento (D = Débito / C = Crédito). \\
+\hline
+4 & Busca y selecciona un proveedor o persona asociada. \\
+\hline
+5 & Ingresa el monto, la fecha, la descripción, el tipo de pago (T = Transferencia / CH = Cheque) y el número de cheque si corresponde. \\
+\hline
+6 & Presiona \textbf{Guardar}. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+7 & Ejecuta \textbf{Numerar transacción automáticamente} (CU-06). \\
+\hline
+8 & Calcula el nuevo saldo de la cuenta sumando o restando el monto al saldo anterior. \\
+\hline
+9 & Guarda el movimiento bancario y la transacción en la base de datos. \\
+\hline
+10 & Recalcula los saldos de meses siguientes si es necesario. \\
+\hline
+11 & Muestra mensaje de confirmación. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo alterno}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Sistema} \\
+\hline
+6.1 & Si el tipo de pago es CH (Cheque) y no ingresa el número de cheque, muestra: \textit{«Debe ingresar el número de cheque.»} \\
+\hline
+6.2 & Si no selecciona un proveedor, permite registrar uno nuevo mediante la búsqueda por CI. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} Debe existir al menos una cuenta bancaria registrada. El usuario debe estar autenticado.
+
+\textbf{Postcondición:} El movimiento queda registrado con su número de transacción. El saldo de la cuenta se actualiza. Los saldos de meses siguientes se recalculan automáticamente.
+
+\newpage
+
+\subsubsection{Caso de Uso CU-06: Numerar transacción automáticamente}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Numerar transacción automáticamente \\
+\hline
+Actor & --- (Incluido en CU-05) \\
+\hline
+Descripción & Ejecutado internamente por \textbf{Gestionar movimientos bancarios} (CU-05). Asigna un número correlativo a cada transacción bancaria según el año fiscal (octubre a septiembre) y el tipo de movimiento (débito o crédito), utilizando bloqueo de fila para evitar duplicados en entornos concurrentes. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Sistema} \\
+\hline
+1 & Recibe el tipo de movimiento (D/C) y la fecha del movimiento. \\
+\hline
+2 & Determina el año fiscal: si el mes es octubre o posterior, el año fiscal inicia en octubre; si es septiembre o anterior, inicia en octubre del año anterior. \\
+\hline
+3 & Bloquea la tabla de transacciones (\texttt{lockForUpdate}) para evitar concurrencia. \\
+\hline
+4 & Consulta el número máximo existente para el mismo tipo y año fiscal. \\
+\hline
+5 & Asigna el siguiente número correlativo. \\
+\hline
+6 & Retorna el número asignado. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} La tabla de transacciones debe estar accesible. La fecha del movimiento debe ser válida.
+
+\textbf{Postcondición:} Se retorna un número entero secuencial único para el tipo y año fiscal.
+
+\newpage
+
+\subsection{Módulo de caja}
+
+\subsubsection{Caso de Uso CU-08: Gestionar movimientos de caja}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Gestionar movimientos de caja \\
+\hline
+Actor & Auxiliar Contable \\
+\hline
+Descripción & El Auxiliar registra, modifica, consulta o elimina movimientos de caja (ingresos y egresos en efectivo). El sistema asigna automáticamente el número de caja correlativo por mes calendario y tipo de movimiento. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Ingresa al módulo de caja. \\
+\hline
+2 & Presiona \textbf{Nuevo movimiento}. \\
+\hline
+3 & Selecciona el tipo (D = Débito / C = Crédito). \\
+\hline
+4 & Busca y selecciona la persona o proveedor. \\
+\hline
+5 & Ingresa monto, fecha, descripción. \\
+\hline
+6 & Presiona \textbf{Guardar}. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+7 & Ejecuta \textbf{Numerar movimiento de caja automáticamente} (CU-09). \\
+\hline
+8 & Si es el primer movimiento del mes, calcula el saldo anterior automáticamente. \\
+\hline
+9 & Guarda el movimiento y la caja en la base de datos. \\
+\hline
+10 & Recalcula saldos de meses siguientes. \\
+\hline
+11 & Muestra mensaje de confirmación. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} El usuario debe estar autenticado.
+
+\textbf{Postcondición:} El movimiento queda registrado con su número de caja. Los saldos se actualizan.
+
+\newpage
+
+\subsection{Módulo de estados de cuenta}
+
+\subsubsection{Caso de Uso CU-11: Consultar estado de cuenta}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Consultar estado de cuenta \\
+\hline
+Actor & Contador General \\
+\hline
+Descripción & El Contador consulta el estado de cuenta de un proveedor o cliente. El sistema muestra el detalle de todos los movimientos (débitos y créditos) ordenados por fecha, con el saldo corriente calculado en cada fila, más los totales de débitos, créditos y saldo final. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Ingresa al módulo de estados de cuenta. \\
+\hline
+2 & Selecciona la pestaña \textbf{Proveedores} o \textbf{Clientes}. \\
+\hline
+3 & Presiona \textbf{Ver estado de cuenta} en la fila del titular deseado. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+4 & Consulta todos los movimientos asociados a la persona (proveedor o cliente). \\
+\hline
+5 & Calcula el saldo corriente para cada movimiento usando una función de ventana. \\
+\hline
+6 & Calcula los totales: suma de débitos, suma de créditos, saldo final. \\
+\hline
+7 & Muestra la tabla de movimientos paginada con los totales. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} Debe existir al menos un proveedor o cliente con movimientos registrados.
+
+\textbf{Postcondición:} Se visualiza el estado de cuenta. No se modifica ningún dato.
+
+\newpage
+
+\subsection{Módulo de reportes y dashboard}
+
+\subsubsection{Caso de Uso CU-13: Generar reportes}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Generar reportes \\
+\hline
+Actor & Contador General \\
+\hline
+Descripción & El Contador genera reportes de retenciones, libro de bancos o movimientos de caja aplicando filtros por rango de fechas, tipo y cuenta. El sistema permite visualizar los datos en pantalla y exportarlos a PDF o Excel. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Ingresa al módulo de reportes. \\
+\hline
+2 & Selecciona el tipo de reporte (Retenciones, Caja, Banco). \\
+\hline
+3 & Configura los filtros: rango de fechas, tipo de movimiento, cuenta (si aplica). \\
+\hline
+4 & Presiona \textbf{Generar}. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+5 & Consulta los datos según los filtros aplicados. \\
+\hline
+6 & Para reporte de banco o caja: calcula el saldo corriente en cada fila. \\
+\hline
+7 & Muestra los resultados en una tabla paginada. \\
+\hline
+& \textbf{Usuario} \\
+\hline
+8 & Presiona \textbf{Exportar PDF} o \textbf{Exportar Excel}. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+9 & Genera el archivo en el formato seleccionado y lo descarga. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} Deben existir datos registrados para el tipo de reporte seleccionado.
+
+\textbf{Postcondición:} Los datos se muestran en pantalla. El archivo exportado se descarga al equipo del usuario.
+
+\newpage
+
+\subsubsection{Caso de Uso CU-15: Visualizar dashboard}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Visualizar dashboard \\
+\hline
+Actor & Gerente / Administrador \\
+\hline
+Descripción & El Gerente accede al dashboard ejecutivo que muestra indicadores clave (KPIs) del estado financiero de la empresa: total de proveedores, cooperativas, movimientos, retenciones del mes, saldo de caja, saldo bancario, gráficos de tendencias y distribución de retenciones por tipo. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Inicia sesión y es redirigido al dashboard. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+2 & Consulta los indicadores: total de proveedores, cooperativas, movimientos registrados. \\
+\hline
+3 & Calcula el total de retenciones del mes en curso y el monto acumulado. \\
+\hline
+4 & Consulta el saldo actual de caja y el saldo bancario consolidado. \\
+\hline
+5 & Genera los gráficos: tendencia de movimientos (12 meses), balance por cuenta, distribución de retenciones (S vs G), tendencia de retenciones (6 meses). \\
+\hline
+6 & Muestra las tarjetas KPI, tablas de movimientos recientes y retenciones recientes, y los gráficos. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} Debe haber datos registrados en el sistema (proveedores, movimientos, retenciones).
+
+\textbf{Postcondición:} Se visualiza el dashboard con información actualizada. No se modifica ningún dato.
+
+\newpage
+
+\subsection{Módulo de administración}
+
+\subsubsection{Caso de Uso CU-16: Gestionar usuarios}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Gestionar usuarios \\
+\hline
+Actor & Administrador del Sistema \\
+\hline
+Descripción & El Administrador crea, modifica, consulta o elimina usuarios del sistema. Cada usuario tiene datos personales (nombre, apellido, CI, email, teléfono), puede tener uno o varios roles asignados, y puede estar activo o inactivo. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Ingresa al módulo de usuarios. \\
+\hline
+2 & Presiona \textbf{Nuevo usuario}. \\
+\hline
+3 & Ingresa los datos del usuario: nombre, apellido, email, CI, teléfono, fecha de nacimiento, género. \\
+\hline
+4 & Asigna uno o varios roles al usuario. \\
+\hline
+5 & Presiona \textbf{Guardar}. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+6 & Valida que el email y el CI no estén duplicados. \\
+\hline
+7 & Genera una contraseña temporal (por defecto el número de CI). \\
+\hline
+8 & Guarda el usuario con los roles asignados. \\
+\hline
+9 & Muestra mensaje de confirmación. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} El Administrador debe tener permisos para gestionar usuarios.
+
+\textbf{Postcondición:} El usuario queda registrado con sus roles. Puede iniciar sesión con su email y la contraseña generada.
+
+\newpage
+
+\subsubsection{Caso de Uso CU-17: Gestionar roles y permisos}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Valor} \\
+\hline
+Caso de Uso & Gestionar roles y permisos \\
+\hline
+Actor & Administrador del Sistema \\
+\hline
+Descripción & El Administrador crea, modifica o elimina roles, y asigna o revoca permisos a cada rol. Los permisos definen qué funcionalidades del sistema puede acceder cada usuario según su rol. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Flujo de eventos básico}
+
+\begin{tabularx}{\textwidth}{|c|X|}
+\hline
+& \textbf{Usuario} \\
+\hline
+1 & Ingresa al módulo de roles. \\
+\hline
+2 & Selecciona un rol existente o crea uno nuevo. \\
+\hline
+3 & Presiona \textbf{Asignar permisos}. \\
+\hline
+4 & Marca o desmarca los permisos deseados de la lista disponible. \\
+\hline
+5 & Presiona \textbf{Sincronizar}. \\
+\hline
+& \textbf{Sistema} \\
+\hline
+6 & Actualiza los permisos del rol seleccionado. \\
+\hline
+7 & Muestra mensaje de confirmación. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\textbf{Precondiciones:} El Administrador debe tener permisos para asignar roles y permisos.
+
+\textbf{Postcondición:} Los permisos del rol quedan actualizados. Los usuarios con ese rol ven reflejados los cambios en su próximo acceso.
+
+\newpage
+
+\section{Contraste con la situación actual}
+
+\subsection{Validación de casos de uso}
+
+\begin{longtable}{|L{4cm}|L{5cm}|L{5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Caso de uso} & \textbf{Contraste con entrevistas} & \textbf{Contraste con observación} \\
+\hline
+\endhead
+CU-02: Gestionar retenciones & Resuelve la queja sobre desorganización y dispersión de registros al centralizar la información en una base de datos. & Elimina el paso de buscar archivos Excel en carpetas compartidas. \\
+\hline
+CU-03: Calcular descuentos automáticamente & Resuelve el problema de errores en cálculos manuales de retenciones mencionado por el Contador. & Automatiza el cálculo que antes se hacía con calculadora y Excel. \\
+\hline
+CU-05: Gestionar movimientos bancarios & Resuelve la queja sobre el 40\% del tiempo dedicado a tareas manuales en Excel. & Elimina el registro manual y el arrastre de fórmulas para calcular saldos. \\
+\hline
+CU-08: Gestionar movimientos de caja & Resuelve la dificultad de mantener registros exactos y actualizados. & Elimina las versiones contradictorias del Excel compartido por correo. \\
+\hline
+CU-11: Consultar estado de cuenta & Resuelve la necesidad de acceso rápido a saldos de proveedores y clientes. & Elimina la búsqueda manual en múltiples archivos. \\
+\hline
+CU-13: Generar reportes & Resuelve la necesidad de información actualizada para toma de decisiones. & Elimina la consolidación manual de datos para generar reportes mensuales. \\
+\hline
+CU-15: Visualizar dashboard & Resuelve la falta de visibilidad del estado financiero en tiempo real. & Reemplaza los informes esporádicos con indicadores actualizados automáticamente. \\
+\hline
+\end{longtable}
+
+\subsection{Cumplimiento de objetivos específicos}
+
+\begin{longtable}{|L{3cm}|L{5cm}|L{6cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Objetivo específico} & \textbf{Casos de uso relacionados} & \textbf{Aporte} \\
+\hline
+Módulo de retenciones con cálculo automático & CU-02, CU-03, CU-04 & Automatiza el cálculo de descuentos y la emisión de recibos. \\
+\hline
+Módulo de libro de bancos con numeración fiscal & CU-05, CU-06, CU-07 & Centraliza los movimientos bancarios con numeración automática por año fiscal. \\
+\hline
+Módulo de caja con numeración mensual & CU-08, CU-09, CU-10 & Registra ingresos/egresos con numeración automática por mes. \\
+\hline
+Módulo de estados de cuenta & CU-11, CU-12 & Visualiza saldos e historial por cliente y proveedor. \\
+\hline
+Módulo de reportes PDF/Excel & CU-13, CU-14, CU-15 & Exporta información financiera para la toma de decisiones. \\
+\hline
+\end{longtable}
+
+\end{document}

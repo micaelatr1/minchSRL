@@ -1,0 +1,449 @@
+\documentclass[stu]{apa7}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{times}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+\geometry{margin=1in}
+
+\title{Actividad 7 --- Fase Final de Implementación \\ Sistema de información web contable sobre recibos de retención y movimientos de caja de la empresa minera MINCH SRL.}
+\author{...}
+\affiliation{...}
+\course{...}
+\professor{...}
+\duedate{...}
+
+\setlength{\parindent}{0.5in}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Enfoque: Scrum --- Sprint Final y Preparación del Release}
+
+En esta etapa, se realiza un \textbf{Sprint de Cierre} para estabilizar el sistema SIC-MINCH, completando los módulos pendientes identificados en la Actividad 4. El objetivo es refinar la UI/UX, optimizar consultas, implementar seguridad definitiva (roles y permisos) y preparar el despliegue final en producción.
+
+\section{Revisión del Product Backlog y Priorización Final}
+
+Al finalizar el Sprint 1, el equipo completó 9 historias (40 SP) correspondientes a los módulos de administración (usuarios, roles, permisos, proveedores, cuentas bancarias, impuestos) y retenciones (registro, cálculo automático, numeración, recibo PDF). Quedan pendientes 13 historias (68 SP) que deben completarse en el Sprint Final.
+
+\subsection{Historias completadas en Sprint 1}
+
+\begin{longtable}{|C{1cm}|L{4.5cm}|C{2cm}|C{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia (resumen)} & \textbf{Épica} & \textbf{SP} \\
+\hline
+HU-21 & Gestionar cuentas bancarias (CRUD) & EP-06 & 3 \\
+\hline
+HU-22 & Gestionar impuestos/tasas (CRUD) & EP-06 & 3 \\
+\hline
+HU-19 & Gestionar proveedores (CRUD) & EP-06 & 3 \\
+\hline
+HU-17 & Gestionar usuarios (CRUD) & EP-06 & 5 \\
+\hline
+HU-18 & Gestionar roles y permisos & EP-06 & 5 \\
+\hline
+HU-01 & Registrar retención con cálculo automático & EP-01 & 8 \\
+\hline
+HU-02 & Calcular descuentos automáticamente & EP-01 & 5 \\
+\hline
+HU-03 & Numerar retención automáticamente & EP-01 & 3 \\
+\hline
+HU-04 & Generar recibo de retención PDF & EP-01 & 5 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Total Sprint 1} & & & \textbf{40} \\
+\hline
+\end{longtable}
+
+\subsection{Historias restantes (priorizadas por valor de negocio)}
+
+\begin{longtable}{|C{0.8cm}|L{5cm}|C{2cm}|C{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia (resumen)} & \textbf{Prioridad (MoSCoW)} & \textbf{SP} \\
+\hline
+HU-06 & Registrar movimiento bancario (débito/crédito) asociado a una cuenta & Indispensable & 8 \\
+\hline
+HU-08 & Ver libro de bancos de un mes con saldo corriente en cada fila & Indispensable & 5 \\
+\hline
+HU-10 & Registrar movimiento de caja (ingreso/egreso) & Indispensable & 8 \\
+\hline
+HU-13 & Consultar estado de cuenta de un proveedor con movimientos y saldo & Indispensable & 8 \\
+\hline
+HU-15 & Generar reportes con filtros por fecha y tipo (PDF/Excel) & Indispensable & 8 \\
+\hline
+HU-07 & Numerar transacción bancaria por año fiscal (octubre--septiembre) & Indispensable & 3 \\
+\hline
+HU-11 & Numerar movimiento de caja por mes calendario & Indispensable & 3 \\
+\hline
+HU-05 & Exportar retenciones de un mes a Excel & Importante & 5 \\
+\hline
+HU-09 & Generar recibo PDF de banco & Importante & 3 \\
+\hline
+HU-12 & Generar recibo PDF de caja & Importante & 3 \\
+\hline
+HU-14 & Generar PDF del estado de cuenta & Importante & 3 \\
+\hline
+HU-16 & Dashboard ejecutivo con KPIs y gráficos & Importante & 8 \\
+\hline
+HU-20 & Gestionar clientes (CRUD) & Deseable & 3 \\
+\hline
+\end{longtable}
+
+\subsection{Planificación del Sprint Final}
+
+\textbf{Objetivo del Sprint Final:} \enquote{Completar los módulos de libro de bancos, caja, estados de cuenta y reportes, integrando todas las funcionalidades pendientes y preparando el sistema para producción.}
+
+\textbf{Capacidad del equipo:} 45 SP (3 desarrolladores $\times$ 10 días hábiles $\times$ 0.75 factor enfoque $\approx$ 22.5 días-hombre ajustados).
+
+\textbf{Historias seleccionadas para el Sprint Final:}
+
+\begin{longtable}{|C{0.8cm}|L{4.5cm}|C{2cm}|C{1.5cm}|C{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Historia (resumen)} & \textbf{Épica} & \textbf{SP} & \textbf{Responsable} \\
+\hline
+HU-06 & Registrar movimiento bancario & EP-02 & 8 & Técnico 1 \\
+\hline
+HU-07 & Numerar transacción bancaria & EP-02 & 3 & Técnico 1 \\
+\hline
+HU-08 & Ver libro de bancos con saldo corriente & EP-02 & 5 & Técnico 2 \\
+\hline
+HU-10 & Registrar movimiento de caja & EP-03 & 8 & Técnico 1 \\
+\hline
+HU-11 & Numerar movimiento de caja & EP-03 & 3 & Técnico 1 \\
+\hline
+HU-13 & Consultar estado de cuenta & EP-04 & 8 & Técnico 2 \\
+\hline
+HU-15 & Generar reportes con filtros & EP-05 & 8 & Técnico 2 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Total} & \textbf{7 historias} & & \textbf{43} & \\
+\hline
+\end{longtable}
+
+Las siguientes historias quedan fuera del Sprint Final y se recomienda abordarlas como mejoras post-release (sprint posterior o mantenimiento evolutivo):
+
+\begin{itemize}
+    \item HU-05 (Exportar retenciones a Excel) --- 5 SP
+    \item HU-09 (Recibo PDF de banco) --- 3 SP
+    \item HU-12 (Recibo PDF de caja) --- 3 SP
+    \item HU-14 (PDF estado de cuenta) --- 3 SP
+    \item HU-16 (Dashboard ejecutivo) --- 8 SP
+    \item HU-20 (Gestionar clientes) --- 3 SP
+\end{itemize}
+
+\section{Plan de Actividades del Sprint Final}
+
+\subsection{Descomposición en tareas}
+
+A continuación se presenta el desglose de tareas para cada historia seleccionada en el Sprint Final.
+
+\subsubsection{HU-06: Registrar movimiento bancario (8 SP)}
+
+\begin{enumerate}
+    \item Crear tabla transactions (migración) con campos: id, number, date, amount, payment\_type (T/CH), number\_check, account\_id, movement\_id.
+    \item Implementar modelo Transaction con relaciones: belongsTo Movement, belongsTo Account.
+    \item Implementar boot event creating con numeración por año fiscal y lockForUpdate().
+    \item Desarrollar Livewire component BankMovementComponentForm con formulario de registro.
+    \item Integrar búsqueda de proveedores y selección de cuenta bancaria.
+    \item Validar: tipo de pago obligatorio, número de cheque obligatorio si payment\_type = CH.
+    \item Pruebas unitarias de creación de movimiento bancario.
+\end{enumerate}
+
+\subsubsection{HU-07: Numerar transacción bancaria por año fiscal (3 SP)}
+
+\begin{enumerate}
+    \item Implementar lógica de año fiscal: octubre a septiembre.
+    \item Consultar último número del mismo tipo (D/C) en el año fiscal con lockForUpdate().
+    \item Asignar número secuencial: D-000001, C-000001.
+    \item Pruebas unitarias de numeración concurrente y cambio de año fiscal.
+\end{enumerate}
+
+\subsubsection{HU-08: Ver libro de bancos con saldo corriente (5 SP)}
+
+\begin{enumerate}
+    \item Desarrollar Livewire component BankBookComponent con vista mensual por cuenta.
+    \item Implementar consulta SQL con función de ventana SUM OVER para saldo corriente.
+    \item Columnas: fecha, descripción, débito, crédito, saldo.
+    \item Filtros: mes, cuenta bancaria, proveedor.
+    \item Pruebas de integración con datos de prueba.
+\end{enumerate}
+
+\subsubsection{HU-10: Registrar movimiento de caja (8 SP)}
+
+\begin{enumerate}
+    \item Crear tabla boxes (migración) con campos: id, number, movement\_id.
+    \item Implementar modelo Box con boot event creating para numeración por mes.
+    \item Desarrollar Livewire component CashMovementComponentForm con formulario de registro.
+    \item Integrar búsqueda de proveedores.
+    \item Calcular saldo anterior si es el primer movimiento del mes.
+    \item Validar: tipo (D/C), monto, fecha, proveedor obligatorios.
+    \item Pruebas unitarias de creación de movimiento de caja.
+\end{enumerate}
+
+\subsubsection{HU-11: Numerar movimiento de caja por mes calendario (3 SP)}
+
+\begin{enumerate}
+    \item Implementar numeración por tipo (D/C) dentro del mes calendario.
+    \item Consultar último número del mes con lockForUpdate().
+    \item Formato: DOC-000001.
+    \item Pruebas unitarias de secuencialidad mensual.
+\end{enumerate}
+
+\subsubsection{HU-13: Consultar estado de cuenta (8 SP)}
+
+\begin{enumerate}
+    \item Desarrollar Livewire component AccountStatementComponent con pestañas (Proveedores/Clientes).
+    \item Listar titulares con saldo actual (débito $-$ crédito) usando AccountStatementService.
+    \item Vista de detalle con movimientos paginados y saldo corriente.
+    \item Mostrar totales: suma débitos, suma créditos, saldo final.
+    \item Filtro por rango de fechas y tipo de persona.
+    \item Pruebas de integración con el servicio de estados de cuenta.
+\end{enumerate}
+
+\subsubsection{HU-15: Generar reportes con filtros (8 SP)}
+
+\begin{enumerate}
+    \item Desarrollar Livewire component ReportComponent con selector de tipo (retenciones/caja/banco).
+    \item Filtros: rango de fechas, tipo de movimiento, cuenta (si aplica).
+    \item Tabla de resultados con saldo corriente.
+    \item Implementar exportación a PDF con mPDF.
+    \item Implementar exportación a Excel con Maatwebsite.
+    \item Pruebas de exportación con diferentes combinaciones de filtros.
+\end{enumerate}
+
+\subsection{Planificación de tareas del Sprint Final}
+
+\begin{longtable}{|C{0.8cm}|L{3.5cm}|L{2.5cm}|C{2cm}|C{2cm}|C{2cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{HU} & \textbf{Tarea} & \textbf{Responsable} & \textbf{Estado (inicio)} & \textbf{Estado (final)} & \textbf{Fecha entrega} \\
+\hline
+HU-06 & Migración tabla transactions & Técnico 1 & Pendiente & & \\
+\hline
+HU-06 & Modelo Transaction con boot event & Técnico 1 & Pendiente & & \\
+\hline
+HU-06 & Componente BankMovementComponentForm & Técnico 1 & Pendiente & & \\
+\hline
+HU-06 & Pruebas unitarias HU-06 & Técnico 1 & Pendiente & & \\
+\hline
+HU-07 & Lógica año fiscal + lockForUpdate() & Técnico 1 & Pendiente & & \\
+\hline
+HU-07 & Pruebas unitarias HU-07 & Técnico 1 & Pendiente & & \\
+\hline
+HU-08 & Componente BankBookComponent & Técnico 2 & Pendiente & & \\
+\hline
+HU-08 & Consulta SQL con ventana SUM OVER & Técnico 2 & Pendiente & & \\
+\hline
+HU-08 & Pruebas de integración HU-08 & Técnico 2 & Pendiente & & \\
+\hline
+HU-10 & Migración tabla boxes & Técnico 1 & Pendiente & & \\
+\hline
+HU-10 & Modelo Box con boot event & Técnico 1 & Pendiente & & \\
+\hline
+HU-10 & Componente CashMovementComponentForm & Técnico 1 & Pendiente & & \\
+\hline
+HU-10 & Pruebas unitarias HU-10 & Técnico 1 & Pendiente & & \\
+\hline
+HU-11 & Lógica numeración mensual + lockForUpdate() & Técnico 1 & Pendiente & & \\
+\hline
+HU-11 & Pruebas unitarias HU-11 & Técnico 1 & Pendiente & & \\
+\hline
+HU-13 & Componente AccountStatementComponent & Técnico 2 & Pendiente & & \\
+\hline
+HU-13 & AccountStatementService con paginación & Técnico 2 & Pendiente & & \\
+\hline
+HU-13 & Pruebas de integración HU-13 & Técnico 2 & Pendiente & & \\
+\hline
+HU-15 & Componente ReportComponent & Técnico 2 & Pendiente & & \\
+\hline
+HU-15 & Exportación PDF con mPDF & Técnico 2 & Pendiente & & \\
+\hline
+HU-15 & Exportación Excel con Maatwebsite & Técnico 2 & Pendiente & & \\
+\hline
+HU-15 & Pruebas de exportación & Técnico 2 & Pendiente & & \\
+\hline
+\end{longtable}
+
+\section{Preparación del Release}
+
+El Sprint Final culmina con la Release Sprint Review y la Retrospectiva. A continuación se describen las actividades previas al release.
+
+\subsection{Integración continua}
+
+Todos los commits pasan por un pipeline de CI/CD que ejecuta las siguientes etapas:
+
+\begin{enumerate}
+    \item \textbf{Linting}: Ejecuta Pint (PHP CS Fixer) para verificar el estilo de código.
+    \item \textbf{Pruebas}: Ejecuta Pest PHP con cobertura mínima del 80\%.
+    \item \textbf{Compilación}: Compila assets con Vite (npm run build).
+    \item \textbf{Despliegue}: Despliega automáticamente en el entorno de pre-producción tras pasar las pruebas.
+\end{enumerate}
+
+\subsection{Entorno de pre-producción}
+
+Se despliega la versión completa del sistema en un entorno idéntico a producción (misma versión de PHP 8.3, MySQL 8.0, Nginx) para realizar pruebas finales de aceptación. Este entorno utiliza una copia anonimizada de la base de datos real.
+
+\subsection{Pruebas de aceptación del Product Owner (PO)}
+
+El PO (Gerente General) valida que todas las historias del Sprint Final cumplen los criterios de aceptación definidos en el Product Backlog:
+
+\begin{itemize}
+    \item El Auxiliar Contable puede registrar movimientos bancarios y de caja correctamente.
+    \item El sistema asigna la numeración correlativa automática sin duplicados.
+    \item El Contador puede consultar el libro de bancos y estados de cuenta con saldos actualizados.
+    \item El Contador puede generar reportes con filtros y exportarlos a PDF y Excel.
+    \item La interfaz es responsive y funciona correctamente en los navegadores objetivo.
+\end{itemize}
+
+\subsection{Capacitación a usuarios}
+
+Se realizan talleres prácticos con los tres roles identificados:
+
+\begin{itemize}
+    \item \textbf{Auxiliar Contable (Carlos)}: Registro de movimientos de caja y bancos, generación de recibos.
+    \item \textbf{Contador General (Carmen)}: Gestión de retenciones, consulta de estados de cuenta, generación de reportes.
+    \item \textbf{Gerente (Pedro)}: Acceso al dashboard, consulta de reportes, supervisión general.
+\end{itemize}
+
+\subsection{Cierre del Sprint}
+
+Se genera el \textbf{Incremento} del producto y se preparan las \textbf{Release Notes} con las siguientes funcionalidades completadas:
+
+\begin{longtable}{|L{3cm}|L{5cm}|L{4cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Módulo} & \textbf{Funcionalidades incluidas} & \textbf{Historias} \\
+\hline
+Administración & Usuarios, roles, permisos, proveedores, cuentas bancarias, impuestos & HU-17, HU-18, HU-19, HU-21, HU-22 \\
+\hline
+Retenciones & Registro, cálculo automático (RC-IVA, IUE, IT), numeración mensual, recibo PDF & HU-01, HU-02, HU-03, HU-04 \\
+\hline
+Libro de bancos & Movimientos bancarios, numeración fiscal, libro con saldo corriente & HU-06, HU-07, HU-08 \\
+\hline
+Caja & Movimientos de caja, numeración mensual & HU-10, HU-11 \\
+\hline
+Estados de cuenta & Consulta por proveedor/cliente, movimientos paginados, saldo corriente & HU-13 \\
+\hline
+Reportes & Reportes con filtros, exportación PDF y Excel & HU-15 \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Avance de Interfaces Finales}
+
+A continuación se muestra el estado de las interfaces principales del sistema al final del Sprint Final.
+
+\begin{longtable}{|L{3.5cm}|L{2.5cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|L{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Módulo / Pantalla} & \textbf{Roles que la usan} & \textbf{Diseño UI} & \textbf{Frontend} & \textbf{Backend} & \textbf{Pruebas funcionales} & \textbf{Observaciones} \\
+\hline
+Login / Autenticación & Todos & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Con animaciones y diseño responsivo \\
+\hline
+Dashboard (vista general) & Todos & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & KPIs básicos, retenciones y movimientos recientes \\
+\hline
+Lista de retenciones & Contador, Auxiliar & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Filtro por mes y tipo (S/G) \\
+\hline
+Registro de retención & Contador & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Cálculo automático de descuentos \\
+\hline
+Recibo PDF de retención & Contador & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Formato A4, mPDF, monto en literal \\
+\hline
+Lista de movimientos bancarios & Auxiliar, Contador & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Filtro por cuenta y mes \\
+\hline
+Registro movimiento bancario & Auxiliar & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Con numeración fiscal automática \\
+\hline
+Libro de bancos (vista mensual) & Contador, Gerente & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Saldo corriente con SUM OVER \\
+\hline
+Lista de movimientos de caja & Auxiliar, Contador & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Filtro por mes \\
+\hline
+Registro movimiento de caja & Auxiliar & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Con numeración mensual automática \\
+\hline
+Estados de cuenta & Contador, Gerente & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Pestañas proveedor/cliente, saldo corriente \\
+\hline
+Reportes con filtros & Contador, Gerente & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Exportación PDF y Excel \\
+\hline
+Gestión de usuarios & Administrador & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & CRUD completo con asignación de roles \\
+\hline
+Gestión de roles y permisos & Administrador & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & 35 permisos, sincronización con Spatie \\
+\hline
+Gestión de proveedores & Contador & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Búsqueda por CI o nombre \\
+\hline
+Gestión de cuentas bancarias & Contador & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Soporte BOB/USD/EUR \\
+\hline
+Gestión de impuestos/tasas & Contador & $\checkmark$ & $\checkmark$ & $\checkmark$ & $\checkmark$ & Parametrizable por tipo (S/G/A) \\
+\hline
+\end{longtable}
+
+\newpage
+
+\subsection{Diagrama de la interfaz de inicio de sesión}
+
+La pantalla de inicio de sesión del sistema SIC-MINCH presenta un diseño moderno con fondo degradado y patrón de cuadrícula. Incluye el logo de la empresa MINCH SRL. y un formulario centrado con campos de correo electrónico y contraseña, más un botón de ingreso. Dispone de animaciones de entrada escalonadas para los campos del formulario y un efecto de brillo (glow) alrededor de la tarjeta de inicio de sesión.
+
+\subsection{Diagrama del dashboard principal}
+
+El dashboard principal se compone de cuatro secciones organizadas en un diseño de cuadrícula responsivo:
+
+\begin{itemize}
+    \item \textbf{Tarjetas KPI} en la parte superior: total de proveedores registrados, movimientos del mes, retenciones del mes, saldo de caja y saldo bancario consolidado.
+    \item \textbf{Gráfico de tendencias} en el centro izquierdo: evolución de ingresos y egresos en los últimos 12 meses.
+    \item \textbf{Tabla de movimientos recientes} en el centro derecho: últimos 10 movimientos registrados con fecha, descripción, tipo y monto.
+    \item \textbf{Tabla de retenciones recientes} en la parte inferior: últimas 5 retenciones con código, proveedor y monto total.
+\end{itemize}
+
+\subsection{Diagrama del formulario de retención}
+
+El formulario de registro de retención presenta los siguientes campos organizados en dos columnas:
+
+\begin{itemize}
+    \item Columna izquierda: tipo de retención (Servicios/Bienes) como selector, proveedor con buscador autocompletable, fecha con calendario.
+    \item Columna derecha: monto base (input numérico con validación entre 10.00 y 999,999,999.99), descripción (área de texto).
+    \item Sección inferior: tabla de descuentos calculados automáticamente al guardar, mostrando impuesto, tasa y monto.
+    \item Botón de guardar con confirmación y mensaje de éxito con el código generado.
+\end{itemize}
+
+\subsection{Diagrama del libro de bancos}
+
+La vista del libro de bancos presenta:
+
+\begin{itemize}
+    \item Selector de cuenta bancaria en la parte superior (dropdown con todas las cuentas registradas).
+    \item Selector de mes/año para filtrar el período.
+    \item Tabla con columnas: número de comprobante, fecha, descripción, débito, crédito, saldo corriente.
+    \item El saldo corriente se calcula mediante una función de ventana SQL (SUM OVER) ordenada por fecha y número.
+    \item Totales al final: suma de débitos, suma de créditos, saldo final.
+    \item Botón para exportar la vista actual a PDF.
+\end{itemize}
+
+\subsection{Diagrama del estado de cuenta}
+
+La vista de estados de cuenta presenta:
+
+\begin{itemize}
+    \item Pestañas en la parte superior para alternar entre \textbf{Proveedores} y \textbf{Clientes}.
+    \item Lista de titulares con saldo actual (débito $-$ crédito) y un indicador visual de saldo positivo (verde) o negativo (rojo).
+    \item Al seleccionar un titular, se muestra una tabla con todos sus movimientos: fecha, descripción, tipo, monto y saldo corriente.
+    \item Paginación de movimientos (20 por página).
+    \item Totales al final: suma débitos, suma créditos, saldo final.
+    \item Botón para generar PDF del estado de cuenta completo.
+\end{itemize}
+
+\end{document}

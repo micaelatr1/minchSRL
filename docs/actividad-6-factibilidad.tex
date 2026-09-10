@@ -1,0 +1,526 @@
+\documentclass[stu]{apa7}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{times}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{multirow}
+
+\geometry{margin=1in}
+
+\title{Actividad 6 --- Estudio de Factibilidad y Viabilidad \\ Sistema de información web contable sobre recibos de retención y movimientos de caja de la empresa minera MINCH SRL.}
+\author{...}
+\affiliation{...}
+\course{...}
+\professor{...}
+\duedate{...}
+
+\setlength{\parindent}{0.5in}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\maketitle
+
+\section{Plan de Trabajo}
+
+El plan de trabajo establece las actividades necesarias para el desarrollo del Sistema de Información Contable para MINCH SRL. (SIC-MINCH), considerando los recursos disponibles y las prioridades del proyecto. Las actividades se han definido a partir de los módulos identificados en el product backlog (actividad 4): administración, retenciones, caja, libro de bancos, estados de cuenta y reportes. Se estima una duración total de 80 días hábiles, equivalentes a aproximadamente 4 meses, con un equipo de 3 técnicos y personal de apoyo parcial.
+
+\begin{longtable}{|C{0.5cm}|L{3.5cm}|C{1.5cm}|L{2.5cm}|C{1.2cm}|L{2cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{ID} & \textbf{Actividad} & \textbf{Duración (días)} & \textbf{Personal responsable} & \textbf{Prioridad} & \textbf{Dependencias} \\
+\hline
+\endhead
+A1 & Levantamiento de requisitos & 5 & Analista + Gerente & Alta & Ninguna \\
+\hline
+A2 & Análisis y diseño del sistema & 8 & Analista + Arquitecto & Alta & A1 \\
+\hline
+A3 & Configuración del entorno & 3 & Técnico 1 & Media & A1 \\
+\hline
+A4 & Desarrollo módulo de administración (usuarios, roles, permisos, maestros) & 8 & Técnico 1, Técnico 2 & Alta & A2 \\
+\hline
+A5 & Desarrollo módulo de retenciones (cálculo automático, numeración, PDF) & 12 & Técnico 1, Técnico 2 & Alta & A2 \\
+\hline
+A6 & Desarrollo módulo de caja (numeración mensual, PDF) & 8 & Técnico 1, Técnico 2 & Alta & A2 \\
+\hline
+A7 & Desarrollo módulo de libro de bancos (numeración fiscal, PDF) & 10 & Técnico 1, Técnico 2 & Alta & A2 \\
+\hline
+A8 & Desarrollo módulo de estados de cuenta y reportes (PDF, Excel, dashboard) & 10 & Técnico 2 & Media & A5, A6, A7 \\
+\hline
+A9 & Pruebas unitarias y de integración & 7 & Técnico 1, Técnico 2 & Alta & A4, A5, A6, A7 \\
+\hline
+A10 & Pruebas de usuario (UAT) & 4 & Auxiliar, Contador, Gerente & Alta & A9 \\
+\hline
+A11 & Capacitación & 3 & Analista & Media & A10 \\
+\hline
+A12 & Implementación y puesta en marcha & 2 & Todos los técnicos & Alta & A11 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Total} & & \textbf{80 días} & & & \\
+\hline
+\end{longtable}
+
+\section{Metas del Proyecto}
+
+Las metas SMART garantizan que los objetivos sean específicos, medibles, alcanzables, relevantes y con un plazo definido, permitiendo un seguimiento efectivo del progreso. Las metas se han definido en función de los casos de uso identificados en actividades anteriores y las tareas expresadas en el plan de trabajo.
+
+\begin{longtable}{|L{5cm}|L{4cm}|C{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Meta} & \textbf{Indicador} & \textbf{Plazo} \\
+\hline
+Automatizar el cálculo de retenciones con descuentos (RC-IVA, IUE, IT) & Precisión del cálculo = 100\% & 1 mes post-implementación \\
+\hline
+Centralizar el registro de movimientos de caja y libro de bancos en una sola plataforma & Reducción del tiempo de registro de 30 min a 5 min por movimiento & 2 meses \\
+\hline
+Generar reportes financieros automáticos en PDF y Excel & Reducción de tiempo de 3h a 15 min por reporte & 1 mes \\
+\hline
+Eliminar la dependencia de hojas Excel para registros contables & 0\% de registros en Excel después de la implementación & Fin del proyecto \\
+\hline
+Capacitar al 100\% del personal contable en el uso del sistema & 100\% del personal capacitado y evaluado & 1 mes post-implementación \\
+\hline
+Reducir errores en la numeración correlativa de comprobantes & 0 errores de duplicados o saltos en numeración & 3 meses \\
+\hline
+\end{longtable}
+
+\section{Personal, Participantes y Tiempos}
+
+Se detalla el equipo humano necesario para el desarrollo, implementación y operación del sistema. Se ha optimizado la dedicación para reducir costos, combinando personal técnico especializado con personal de la empresa que participa de manera parcial.
+
+\begin{longtable}{|L{2.5cm}|L{2.5cm}|C{1.5cm}|L{6cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Rol} & \textbf{Nombre/Perfil} & \textbf{Dedicación (\%)} & \textbf{Responsabilidades principales} \\
+\hline
+Gerente General & Pedro --- Fundador MINCH SRL. & 8\% & Aprobación de requisitos, supervisión general, toma de decisiones \\
+\hline
+Técnico 1 & --- & 100\% & Desarrollo backend (Laravel, Livewire), base de datos, pruebas \\
+\hline
+Técnico 2 & --- & 100\% & Desarrollo frontend (Livewire, TallStackUI, Tailwind), reportes, integración \\
+\hline
+Auxiliar Contable & Carlos --- Personal MINCH SRL. & 12\% & Pruebas de usabilidad, validación de flujos de caja y bancos \\
+\hline
+Contador General & Carmen --- Personal MINCH SRL. & 15\% & Definición de fórmulas de retención, validación de cálculos, reportes financieros \\
+\hline
+Analista & --- & 85\% & Requisitos, diseño, documentación, capacitación, gestión del proyecto \\
+\hline
+\end{longtable}
+
+El cronograma resumido muestra la distribución temporal de las actividades a lo largo del proyecto, organizado en 4 meses.
+
+\begin{longtable}{|L{1.5cm}|L{2.5cm}|L{2.5cm}|L{2.5cm}|L{2.5cm}|L{2.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Mes} & \textbf{Semanas 1--2} & \textbf{Semanas 3--4} & \textbf{Semanas 5--6} & \textbf{Semanas 7--8} & \textbf{Semanas 9--10} \\
+\hline
+Mes 1 & A1, A2 & A2, A3 & A4 & A4, A5 & A5 \\
+\hline
+Mes 2 & A5 & A6 & A7 & A7, A8 & A8 \\
+\hline
+Mes 3 & A8 & A9 & A9, A10 & A10, A11 & A12 \\
+\hline
+\multicolumn{6}{|L{16cm}|}{\textbf{Duración total estimada: 4 meses (80 días hábiles)}} \\
+\hline
+\end{longtable}
+
+\section{Alteraciones (Modificaciones) --- Gestión de Cambios}
+
+Durante el desarrollo pueden surgir modificaciones no contempladas inicialmente. Este registro permite evaluar el impacto de cada cambio en costo y tiempo. Las siguientes solicitudes de cambio representan escenarios plausibles para el proyecto SIC-MINCH.
+
+\begin{longtable}{|L{3.5cm}|L{3cm}|C{1.5cm}|C{1.5cm}|L{2.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Solicitud de cambio} & \textbf{Causa} & \textbf{Impacto en costo} & \textbf{Impacto en tiempo} & \textbf{Decisión} \\
+\hline
+Agregar módulo de conciliación bancaria automática & Mejora solicitada por el Contador General & +Bs. 2.500 & +10 días & Aprobado si hay presupuesto \\
+\hline
+Reporte adicional de retenciones por periodos fiscales & Requerimiento nuevo del Gerente & +Bs. 800 & +4 días & Aprobado \\
+\hline
+Soporte para múltiples monedas (USD/BOB) en libro de bancos & Necesidad identificada durante análisis & +Bs. 1.200 & +6 días & Aprobado bajo impacto \\
+\hline
+Cambio en el formato del recibo PDF de retención & Restricción de Impuestos Nacionales & +Bs. 500 & +3 días & Aprobado (obligatorio) \\
+\hline
+\end{longtable}
+
+\section{Costos del Desarrollo (Basado en COCOMO Básico)}
+
+\subsection{Estimación de líneas de código (KDSI)}
+
+La estimación del tamaño del software es fundamental para el cálculo de esfuerzo. Para el sistema SIC-MINCH con 6 módulos principales, stack Laravel + Livewire + TallStackUI + MySQL, se estiman las siguientes líneas de código (incluyendo Blade, PHP, JavaScript y CSS).
+
+\begin{longtable}{|L{5cm}|C{4cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Módulo} & \textbf{Líneas de código estimadas} \\
+\hline
+Administración (usuarios, roles, permisos, proveedores, clientes, cuentas, impuestos) & 3.000 \\
+\hline
+Retenciones (CRUD, cálculo automático, descuentos, numeración, PDF) & 3.500 \\
+\hline
+Caja (CRUD, numeración mensual, PDF, saldos) & 2.500 \\
+\hline
+Libro de bancos (CRUD, numeración fiscal, PDF, saldos con ventana) & 3.000 \\
+\hline
+Estados de cuenta (consulta, movimientos paginados, saldo corriente, PDF) & 2.500 \\
+\hline
+Reportes y dashboard (KPIs, gráficos, exportación PDF/Excel) & 3.000 \\
+\hline
+Configuración, testing, helpers (NumberHelper, etc.) & 1.500 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Total} & \textbf{19.000 líneas ≈ 19 KDSI} \\
+\hline
+\end{longtable}
+
+\subsection{Cálculo COCOMO Básico (Modo Semiacoplado)}
+
+El modelo COCOMO permite estimar el esfuerzo y tiempo requerido para el desarrollo del software. Se utiliza el modo semiacoplado (intermedio entre orgánico y embebido) dado que el proyecto involucra un equipo con experiencia mixta y requisitos moderadamente complejos.
+
+\textbf{Fórmulas:}
+
+\begin{longtable}{|C{3cm}|C{4cm}|C{5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Variable} & \textbf{Fórmula} & \textbf{Significado} \\
+\hline
+ESFUERZO (E) & $E = a \cdot (KDSI)^b$ & Personas-mes \\
+\hline
+TIEMPO (T) & $T = c \cdot (E)^d$ & Meses (duración) \\
+\hline
+PERSONAL PROMEDIO (P) & $P = E / T$ & Personas necesarias \\
+\hline
+\end{longtable}
+
+Para modo Semiacoplado: $a = 3.0$, $b = 1.12$, $c = 2.5$, $d = 0.35$.
+
+\begin{itemize}
+    \item $E = 3.0 \times (19)^{1.12} = 3.0 \times 28.3 \approx 84.9$ personas-mes
+    \item $T = 2.5 \times (84.9)^{0.35} = 2.5 \times 4.7 \approx 11.8$ meses (según COCOMO teórico)
+    \item $P = 84.9 / 11.8 \approx 7.2$ personas
+\end{itemize}
+
+El tiempo teórico de COCOMO (11.8 meses) asume un equipo reducido. En la práctica, al contar con 3 desarrolladores full-time más personal de apoyo parcial, el cronograma se comprime a 4 meses incrementando el personal promedio, lo cual es factible por la modularidad del sistema.
+
+\begin{longtable}{|L{4cm}|C{2cm}|C{2.5cm}|L{6cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Factor} & \textbf{Calificación} & \textbf{Multiplicador} & \textbf{Justificación técnica} \\
+\hline
+Confiabilidad requerida (RELY) & Alta & 1.08 & El sistema maneja datos financieros y retenciones con implicaciones tributarias. Las fallas pueden generar multas o pérdidas económicas, pero no ponen en riesgo vidas humanas. \\
+\hline
+Tamaño de base de datos (DATA) & Media & 1.08 & La base de datos manejará aproximadamente 10.000--15.000 registros (retenciones, movimientos, personas), un tamaño moderado para MySQL. \\
+\hline
+Complejidad del producto (CPLX) & Alta & 1.06 & Se usan algoritmos para cálculo automático de retenciones, numeración concurrente con lockForUpdate() y funciones de ventana para saldos. \\
+\hline
+Experiencia del equipo (APEX) & Media & 1.00 & El equipo tiene 2--3 años de experiencia promedio con Laravel, Livewire y MySQL. \\
+\hline
+Herramientas modernas (TOOL) & Alta & 0.90 & Se utilizan frameworks modernos (Laravel 13, Livewire 4, MySQL 8) y herramientas eficientes (VS Code, Git, Docker). \\
+\hline
+\end{longtable}
+
+\textbf{Esfuerzo ajustado} $= 84.9 \times (1.08 \times 1.08 \times 1.06 \times 1.00 \times 0.90)$ \\
+$= 84.9 \times 1.11 \approx 94.2$ personas-mes
+
+\begin{longtable}{|C{4cm}|C{4cm}|C{4cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Concepto} & \textbf{Cálculo} & \textbf{Monto (Bs.)} \\
+\hline
+Salario Analista (94.2 pm $\times$ 0.25 dedicación) & 23.6 pm $\times$ 3.500/mes & 82.600 \\
+\hline
+Salario Técnico 1 (94.2 pm $\times$ 0.35) & 33.0 pm $\times$ 3.000/mes & 99.000 \\
+\hline
+Salario Técnico 2 (94.2 pm $\times$ 0.30) & 28.3 pm $\times$ 3.000/mes & 84.900 \\
+\hline
+Gerente (supervisión 8\%) & 7.5 pm $\times$ 5.000/mes & 37.500 \\
+\hline
+Contador (asesoría 15\%) & 14.1 pm $\times$ 3.500/mes & 49.350 \\
+\hline
+Auxiliar Contable (pruebas 12\%) & 11.3 pm $\times$ 2.000/mes & 22.600 \\
+\hline
+\textbf{Subtotal personal} & & \textbf{375.950} \\
+\hline
+Licencias de software (open source) & & 0 \\
+\hline
+Hardware (servidor VPS, respaldos) & & 8.000 \\
+\hline
+Capacitación y manuales & & 2.000 \\
+\hline
+\textbf{Costo total directo} & & \textbf{385.950} \\
+\hline
+Contingencias (10\%) & & 38.595 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Costo total del proyecto} & & \textbf{424.545} \\
+\hline
+\end{longtable}
+
+Según la tabla, con un esfuerzo estimado de 94.2 personas-mes, distribuyéndolo entre Analista y dos Técnicos con dedicaciones parciales para el personal de la empresa. La suma total asciende a Bs. 424.545 incluyendo hardware, capacitación y contingencias del 10\%.
+
+\section{Análisis de Riesgos}
+
+La identificación y mitigación de riesgos es esencial para garantizar el éxito del proyecto. Se han identificado los siguientes riesgos potenciales considerando las características del entorno minero, la normativa tributaria boliviana y la infraestructura tecnológica disponible.
+
+\begin{longtable}{|L{3.5cm}|C{1.5cm}|C{1.5cm}|C{1.5cm}|L{4.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Riesgo} & \textbf{Probabilidad (1--5)} & \textbf{Impacto (1--5)} & \textbf{Nivel} & \textbf{Mitigación} \\
+\hline
+Rotación de personal técnico & 3 & 4 & Alto & Contratar 2 técnicos, documentar código, mantener repositorio Git con historial claro \\
+\hline
+Cambios en tasas impositivas (RC-IVA, IUE, IT) & 2 & 4 & Medio & Módulo de impuestos parametrizable (CRUD de tasas), sin valores hardcodeados \\
+\hline
+Resistencia al cambio del personal contable & 3 & 3 & Medio & Capacitación temprana, pilotos con el Auxiliar Contable, interfaz intuitiva \\
+\hline
+Fallas en integración con sistema contable existente & 4 & 4 & Alto & Prototipo de integración en fase temprana, pruebas de exportación/importación \\
+\hline
+Aumento de alcance (scope creep) & 4 & 3 & Alto & Comité de cambios semanal, backlog priorizado con MoSCoW \\
+\hline
+Pérdida de datos por falta de respaldos & 2 & 5 & Alto & Backup automático diario en servidor y NAS, pruebas de restauración mensuales \\
+\hline
+Obsolescencia tecnológica & 1 & 2 & Bajo & Usar stack estándar (Laravel, MySQL, Livewire) con versiones LTS \\
+\hline
+Gastos no previstos hasta un 10\% & 2 & 2 & Medio & Cumplir con los tiempos señalados y mantener contingencia presupuestaria \\
+\hline
+\end{longtable}
+
+\section{Análisis Financiero}
+
+Se proyecta el flujo de caja del proyecto a 5 años para analizar su rentabilidad. Los ahorros estimados se basan en la reducción de tiempo manual del personal contable (actualmente 40\% de la jornada en tareas manuales), eliminación de errores de cálculo y reducción de horas extras.
+
+\begin{longtable}{|L{4cm}|C{2cm}|C{2cm}|C{2cm}|C{2cm}|C{2cm}|C{2cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Concepto} & \textbf{Año 0} & \textbf{Año 1} & \textbf{Año 2} & \textbf{Año 3} & \textbf{Año 4} & \textbf{Año 5} \\
+\hline
+Inversión inicial & (424.545) & --- & --- & --- & --- & --- \\
+\hline
+Ahorro reducción horas extra (3 empleados) & & 28.000 & 28.000 & 28.000 & 28.000 & 28.000 \\
+\hline
+Ahorro eficiencia contable (40\% tiempo manual) & & 45.000 & 45.000 & 45.000 & 45.000 & 45.000 \\
+\hline
+Ahorro en material de oficina y formularios & & 3.000 & 3.000 & 3.000 & 3.000 & 3.000 \\
+\hline
+Multas evitadas (rectificaciones tributarias) & & 15.000 & 15.000 & 15.000 & 15.000 & 15.000 \\
+\hline
+Ahorro en auditorías externas & & 10.000 & 10.000 & 10.000 & 10.000 & 10.000 \\
+\hline
+\textbf{Beneficio anual} & & \textbf{101.000} & \textbf{101.000} & \textbf{101.000} & \textbf{101.000} & \textbf{101.000} \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Flujo neto} & \textbf{(424.545)} & \textbf{101.000} & \textbf{101.000} & \textbf{101.000} & \textbf{101.000} & \textbf{101.000} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|L{5cm}|C{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Símbolo} & \textbf{Valor en ejemplo} \\
+\hline
+$I_0$ --- Inversión inicial (costo total del proyecto) & 424.545 Bs. \\
+\hline
+$FCT$ --- Flujo de caja neto esperado en el año $t$ & 101.000 Bs. cada año \\
+\hline
+$r$ --- Tasa de descuento (costo de oportunidad) & 12\% = 0.12 \\
+\hline
+$n$ --- Número de años & 5 años \\
+\hline
+\end{longtable}
+
+\textbf{Cálculo del VAN (tasa de descuento = 12\%):}
+
+\[
+\begin{aligned}
+VAN &= -424.545 + \frac{101.000}{(1.12)^1} + \frac{101.000}{(1.12)^2} + \frac{101.000}{(1.12)^3} + \frac{101.000}{(1.12)^4} + \frac{101.000}{(1.12)^5} \\
+VAN &= -424.545 + 90.179 + 80.517 + 71.890 + 64.188 + 57.310 \\
+VAN &= \textbf{--60.461 Bs. (NEGATIVO)}
+\end{aligned}
+\]
+
+El VAN resulta negativo (-60.461 Bs.) considerando únicamente los ahorros directos. Sin embargo, al incluir beneficios intangibles como la reducción de errores, la disponibilidad de información en tiempo real y la mejora en la toma de decisiones estratégicas, el proyecto se justifica. Adicionalmente, si se considera un horizonte de 6 años o se reduce la tasa de descuento, el VAN se vuelve positivo.
+
+\textbf{Período de Recuperación (Payback):}
+
+\[
+\begin{aligned}
+Payback &= \text{Año de recuperación} \\
+&= 4 + \frac{424.545 - (90.179 + 80.517 + 71.890 + 64.188)}{57.310} \\
+&= 4 + \frac{424.545 - 306.774}{57.310} \\
+&= 4 + \frac{117.771}{57.310} \\
+&= 4 + 2.05 \approx 6.05 \text{ años}
+\end{aligned}
+\]
+
+\textbf{Relación Costo/Beneficio:}
+
+\[
+\begin{aligned}
+\text{Relación B/C} &= \frac{VAN + Inversión}{Inversión} \\
+&= \frac{-60.461 + 424.545}{424.545} \\
+&= \frac{364.084}{424.545} = 0.86
+\end{aligned}
+\]
+
+\begin{longtable}{|L{4cm}|C{3cm}|L{6cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Indicador} & \textbf{Valor} & \textbf{Interpretación} \\
+\hline
+VAN (5 años) & --60.461 Bs. & NEGATIVO --- El proyecto no se recupera solo con ahorros directos en 5 años \\
+\hline
+Payback & 6.05 años & Recuperación a largo plazo, supera el horizonte de 5 años \\
+\hline
+Relación Costo/Beneficio & 0.86 & Por cada Bs. invertido, se recuperan 0.86 Bs. solo con ahorros mensurables \\
+\hline
+\end{longtable}
+
+El análisis financiero muestra que el proyecto no es rentable exclusivamente desde la perspectiva de ahorros directos en el corto plazo. Sin embargo, los beneficios intangibles ---disponibilidad de información en tiempo real, reducción de errores de cálculo, mejora en la toma de decisiones, cumplimiento tributario--- justifican ampliamente la inversión. Se recomienda complementar el análisis con una valoración cualitativa de estos beneficios.
+
+\section{Análisis de Viabilidad}
+
+La viabilidad del proyecto se evalúa en múltiples dimensiones para justificar el proyecto SIC-MINCH ante la Gerencia de MINCH SRL.
+
+\begin{longtable}{|L{3cm}|C{1.5cm}|L{10cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Tipo de viabilidad} & \textbf{Sí/No} & \textbf{Justificación} \\
+\hline
+Técnica & Sí & Equipo con experiencia en Laravel, Livewire, MySQL. El stack es maduro, bien documentado y con amplia comunidad. El servidor VPS puede alojar la aplicación con los requisitos identificados. \\
+\hline
+Operativa & Sí & Los 3 usuarios clave (Auxiliar, Contador, Gerente) pueden adaptarse con capacitación. Los procesos actuales son manuales (Excel), por lo que la mejora es evidente y la curva de aprendizaje es baja gracias a la interfaz web intuitiva con TallStackUI. \\
+\hline
+Económica & Parcial & El VAN a 5 años es negativo considerando solo ahorros directos (-60.461 Bs.). Sin embargo, los beneficios intangibles (información en tiempo real, reducción de errores, cumplimiento tributario) y la extensión del horizonte a 6--7 años hacen viable el proyecto. \\
+\hline
+Legal & Sí & El sistema cumple con la normativa tributaria boliviana (RC-IVA, IUE, IT) al implementar los cálculos según las tasas oficiales. Los registros electrónicos tienen validez legal. No se almacenan datos sensibles protegidos por leyes especiales. \\
+\hline
+Cronológica & Sí & 4 meses es un plazo realista para la construcción del proyecto. Las actividades están desglosadas y priorizadas. El equipo puede cumplir con las entregas parciales usando la metodología Scrum con sprints de 2 semanas. \\
+\hline
+De recursos humanos & Sí & El personal interno de MINCH puede dedicar horas parciales (8--15\%) sin afectar sus funciones principales. Los técnicos externos se dedican full-time al desarrollo. \\
+\hline
+De riesgos & Media & Los riesgos son controlables con las mitigaciones propuestas. El riesgo más crítico (pérdida de datos) se mitiga con backup automático diario. El aumento de alcance se controla con el comité de cambios semanal. \\
+\hline
+\end{longtable}
+
+\section{Requerimientos de Hardware y Software Adicionales}
+
+Este apartado es crítico para la viabilidad técnica y presupuestal. Se detallan los requerimientos de infraestructura para desarrollo y producción.
+
+\begin{longtable}{|L{4cm}|L{5cm}|C{1.5cm}|L{2.5cm}|C{1.5cm}|C{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Componente} & \textbf{Especificación mínima} & \textbf{Cant.} & \textbf{Uso} & \textbf{Costo unit. (Bs.)} & \textbf{Costo total (Bs.)} \\
+\hline
+Servidor VPS (producción) & 4 vCPU / 8 GB RAM / 100 GB SSD / 2 TB transferencia & 1 & Base de datos, backend, frontend, reportes & 350/mes $\times$ 12 = 4.200/año & 4.200 \\
+\hline
+Servidor de respaldos (NAS) & Synology DS220+ con 2 discos de 4 TB & 1 & Copias de seguridad diarias & 3.500 & 3.500 \\
+\hline
+PC para desarrollo (Técnicos) & Intel i7 / RAM: 32 GB / SSD 512 GB & 2 & Desarrollo, pruebas locales & 7.000 & 14.000 \\
+\hline
+PC para Auxiliar (pruebas) & Intel i5 / RAM: 16 GB / SSD 256 GB & 1 & Pruebas de usuario (UAT) & 5.000 & 5.000 \\
+\hline
+PC para Gerente/Contador & Equipos existentes de MINCH & --- & Acceso web al sistema & 0 & 0 \\
+\hline
+UPS (respaldo eléctrico) & 1500VA / 900W & 2 & Servidor y NAS & 1.200 & 2.400 \\
+\hline
+Switch de red + cableado & Gigabit 8 puertos + cables Cat6 & 1 & Conectividad local & 700 & 700 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Total Hardware} & & & & & \textbf{29.800} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|L{4cm}|L{3cm}|L{2cm}|C{1.5cm}|C{2cm}|C{2cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Software} & \textbf{Versión / Tipo} & \textbf{Licenciamiento} & \textbf{Cant.} & \textbf{Costo unit. (Bs.)} & \textbf{Costo total (Bs.)} \\
+\hline
+Sistema operativo servidor & Ubuntu Server 24.04 LTS & Libre & 1 & 0 & 0 \\
+\hline
+Base de datos & MySQL 8.0 & Libre & 1 & 0 & 0 \\
+\hline
+Backend runtime & PHP 8.3 + Laravel 13 & Libre & 1 & 0 & 0 \\
+\hline
+Servidor web & Nginx & Libre & 1 & 0 & 0 \\
+\hline
+Respaldo automatizado & Duplicati o Veeam Free & Libre & 1 & 0 & 0 \\
+\hline
+IDE para desarrollo & Visual Studio Code & Libre & 2 & 0 & 0 \\
+\hline
+Control de versiones & Git + GitHub privado & Gratuito & 1 & 0 & 0 \\
+\hline
+VPN para acceso remoto & WireGuard & Libre & 1 & 0 & 0 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Total Software} & & & & & \textbf{0} \\
+\hline
+\end{longtable}
+
+\begin{longtable}{|L{4cm}|L{5cm}|L{6cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Requerimiento} & \textbf{Especificación mínima} & \textbf{Justificación} \\
+\hline
+Ancho de banda de internet & 10 Mbps simétricos & Acceso remoto del Gerente, reportes por email \\
+\hline
+Red interna & 100 Mbps garantizados & Comunicación entre servidor y clientes \\
+\hline
+IP fija o DDNS & IP pública fija o servicio DDNS & Acceso externo para Gerente y Contador remoto \\
+\hline
+Firewall & Router con NAT y reglas básicas & Seguridad perimetral \\
+\hline
+\end{longtable}
+
+\textbf{Costo estimado de implementación de red (si no existe):} 2.500 Bs.
+
+\begin{longtable}{|L{4cm}|C{2cm}|C{2cm}|C{2cm}|C{2.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Equipo} & \textbf{Consumo estimado (W)} & \textbf{Horas/día} & \textbf{kWh/mes} & \textbf{Costo mensual (Bs.)} \\
+\hline
+Servidor VPS (en la nube) & --- & 24 & --- & Incluido en hosting \\
+\hline
+NAS (respaldo local) & 50 W & 24 & 36 kWh & 56,52 \\
+\hline
+PC desarrollo (2) & 300 W c/u & 8 & 144 kWh & 226,08 \\
+\hline
+PC Auxiliar & 150 W & 6 & 27 kWh & 42,39 \\
+\hline
+Switch + router & 30 W & 24 & 21,6 kWh & 33,91 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Total mensual} & & & \textbf{228,6 kWh} & \textbf{358,90} \\
+\hline
+\end{longtable}
+
+*Costo por kWh = 1.57 Bs. estimado*
+
+\begin{longtable}{|L{8cm}|C{4cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Concepto} & \textbf{Costo (Bs.)} \\
+\hline
+Hardware (servidores, PCs, UPS, switch) & 29.800 \\
+\hline
+Software base (open source) & 0 \\
+\hline
+Red y conectividad (implementación) & 2.500 \\
+\hline
+Consumo eléctrico anual (proyección) & 4.307 \\
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Total inversión en infraestructura} & \textbf{36.607} \\
+\hline
+\end{longtable}
+
+\end{document}

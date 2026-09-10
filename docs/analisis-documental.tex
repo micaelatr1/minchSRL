@@ -1,0 +1,482 @@
+\documentclass[stu]{apa7}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{times}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{tabularx}
+
+\geometry{margin=1in}
+
+\title{Análisis Documental --- Sistema de información web contable sobre recibos de retención y movimientos de caja de la empresa minera MINCH SRL.}
+\author{...}
+\affiliation{...}
+\course{...}
+\professor{...}
+\duedate{...}
+
+\setlength{\parindent}{0.5in}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\maketitle
+
+\section{Matriz del análisis documental}
+
+\begin{longtable}{|L{4cm}|L{6cm}|L{5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Documento} & \textbf{Descripción} & \textbf{Área donde apoyará} \\
+\hline
+\endhead
+Formulario de retención de impuestos (RC-IVA, IUE, IT) & Documento interno donde se registra el cálculo de retenciones a proveedores sin NIT, aplicando las tasas impositivas según el tipo de bien o servicio (Servicios/Bienes). & Módulo de retenciones \\
+\hline
+Libro de Excel de movimientos de caja & Archivo digital donde se anotan manualmente los ingresos y egresos de cada cuenta bancaria, clasificados por tipo de movimiento. & Módulo de caja \\
+\hline
+Recibos de retención emitidos & Comprobantes físicos o digitales que se entregan al proveedor como constancia de la retención realizada. & Módulo de retenciones \\
+\hline
+Extractos bancarios & Reportes emitidos por las entidades financieras (BNB, BCP, BISA, etc.) que muestran el detalle de movimientos de cada cuenta. & Módulo de libro de bancos \\
+\hline
+Registro de proveedores & Listado de proveedores con datos de identificación (CI, NIT, nombre, teléfono) utilizado para asociar las retenciones y movimientos. & Módulo de retenciones y caja \\
+\hline
+Registro de clientes & Listado de clientes con datos de identificación, utilizado para estados de cuenta. & Módulo de estados de cuenta \\
+\hline
+Normativa tributaria boliviana (Ley 843, RC-IVA, IUE, IT) & Marco legal que regula las tasas de retención y las obligaciones tributarias de la empresa ante Impuestos Nacionales. & Módulo de retenciones \\
+\hline
+Comprobantes de pago (transferencias y cheques) & Documentos que respaldan cada movimiento bancario, identificados por tipo de pago (T = Transferencia, CH = Cheque). & Módulo de libro de bancos \\
+\hline
+Conciliaciones bancarias mensuales & Hojas de cálculo donde se compara el saldo contable con el saldo bancario para cada cuenta. & Módulo de caja y reportes \\
+\hline
+Reportes de retención mensuales & Resúmenes elaborados en Excel que consolidan las retenciones realizadas en un mes, clasificadas por tipo de servicio o bien. & Módulo de reportes \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Recolección de información}
+
+\subsection{Cuestionarios}
+
+\subsubsection{Cuestionario Nº 1 --- Contador General}
+
+\textbf{Cargo:} Contador General \\
+\textbf{Objetivo:} Identificar las necesidades del módulo de retenciones y cálculo automático de descuentos. \\
+\textbf{Instrucciones:} Responda las siguientes preguntas según su experiencia en el área contable.
+
+\begin{enumerate}
+    \item ¿Está de acuerdo con la implementación de un sistema web para la gestión de retenciones y movimientos de caja?
+    \item ¿Cómo realiza actualmente el cálculo de descuentos en las retenciones (RC-IVA, IUE, IT)?
+    \item ¿Cuánto tiempo semanal destina al registro manual de retenciones en Excel?
+    \item ¿Qué información considera indispensable que deba mostrar el módulo de retenciones?
+    \item ¿Cómo se genera actualmente el número correlativo de cada recibo de retención?
+    \item ¿Qué tipo de reportes de retenciones necesita generar mensualmente?
+    \item ¿Qué problemas ha detectado en el registro manual de movimientos de caja?
+    \item ¿Qué resultados espera del sistema para considerar que su trabajo es más eficiente?
+    \item ¿Cuáles son las secciones o unidades comprometidas con el flujo de retenciones?
+    \item ¿Qué información debe contener un estado de cuenta para proveedores y clientes?
+\end{enumerate}
+
+\subsubsection{Cuestionario Nº 2 --- Auxiliar Contable}
+
+\textbf{Cargo:} Auxiliar Contable \\
+\textbf{Objetivo:} Conocer el proceso operativo diario de registro de movimientos y emisión de recibos. \\
+\textbf{Instrucciones:} Responda las siguientes preguntas según sus actividades diarias.
+
+\begin{enumerate}
+    \item ¿Cuánto tiempo le toma registrar un movimiento de caja manualmente?
+    \item ¿Qué datos registra actualmente en cada movimiento de caja (ingreso/egreso)?
+    \item ¿Cómo clasifica los movimientos por tipo (débito/crédito) y por cuenta bancaria?
+    \item ¿Utiliza algún formato o plantilla para la emisión de recibos de retención?
+    \item ¿Qué dificultades enfrenta al buscar un registro de retención anterior?
+    \item ¿Cómo se maneja actualmente la numeración de los comprobantes?
+    \item ¿Qué herramientas externas (Excel, papel) utiliza para suplir carencias del sistema actual?
+    \item ¿Cuántos movimientos de caja registra aproximadamente por día?
+    \item ¿Qué tan frecuente encuentra errores o inconsistencias en los registros?
+    \item ¿Qué funcionalidades le gustaría que tuviera el sistema para facilitar su trabajo diario?
+\end{enumerate}
+
+\subsubsection{Cuestionario Nº 3 --- Gerente/Administrador}
+
+\textbf{Cargo:} Gerente / Administrador \\
+\textbf{Objetivo:} Identificar necesidades de reportes y toma de decisiones. \\
+\textbf{Instrucciones:} Responda las siguientes preguntas según su rol gerencial.
+
+\begin{enumerate}
+    \item ¿Con qué frecuencia necesita consultar el estado financiero de las cuentas bancarias?
+    \item ¿Qué tipo de reportes financieros utiliza para la toma de decisiones?
+    \item ¿Cómo accede actualmente a la información de retenciones realizadas en un período?
+    \item ¿Qué información debe mostrar el dashboard ejecutivo del sistema?
+    \item ¿Necesita exportar reportes en PDF o Excel? ¿Con qué frecuencia?
+    \item ¿Qué información considera crítica que el sistema deba mostrar en tiempo real?
+    \item ¿Cómo se manejan actualmente los estados de cuenta de proveedores y clientes?
+    \item ¿Qué beneficios económicos espera de la implementación del sistema?
+    \item ¿Qué indicadores de rendimiento (KPI) considera importantes para el área contable?
+    \item ¿Cómo prefiere visualizar la información financiera (tablas, gráficos, ambos)?
+\end{enumerate}
+
+\newpage
+
+\subsection{Guía de entrevista}
+
+\subsubsection{Guía de Entrevista Nº 1 --- Contador General}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Dato} \\
+\hline
+Nombre & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\hline
+Cargo & Contador General \\
+\hline
+Institución & MINCH SRL. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\begin{enumerate}
+    \item ¿Está de acuerdo con la implementación del sistema web para la gestión de retenciones y movimientos de caja, y qué resultados espera para mejorar la eficiencia del área contable?
+
+    \item ¿Qué aspectos son importantes en la implementación del sistema y cómo mejorará el funcionamiento de la empresa?
+
+    \item ¿Cuáles son las unidades o secciones de la empresa comprometidas con el funcionamiento del sistema de retenciones y caja?
+
+    \item ¿Cómo se genera actualmente el proceso de registro de retenciones y qué información se necesita para emitir un recibo de retención?
+
+    \item ¿Cuáles deben ser los resultados que debe generar el sistema en cuanto a la automatización del cálculo de descuentos?
+
+    \item ¿Cómo se realiza el proceso de conciliación bancaria y qué información se necesita del sistema para agilizarlo?
+
+    \item ¿Qué tipos de reportes financieros son críticos para la toma de decisiones gerenciales?
+
+    \item ¿Cómo se maneja actualmente la numeración de los recibos y qué problemas ha ocasionado el método manual?
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{Observaciones:} \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+\newpage
+
+\subsubsection{Guía de Entrevista Nº 2 --- Auxiliar Contable}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Dato} \\
+\hline
+Nombre & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\hline
+Cargo & Auxiliar Contable \\
+\hline
+Institución & MINCH SRL. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\begin{enumerate}
+    \item ¿Cuáles son las tareas diarias que realiza en el área de contabilidad y cuánto tiempo le demandan?
+
+    \item ¿Qué dificultades enfrenta al registrar los movimientos de caja en Excel?
+
+    \item ¿Cómo se realiza actualmente la emisión de un recibo de retención paso a paso?
+
+    \item ¿Qué información es la que más consulta o recupera de los registros históricos?
+
+    \item ¿Qué cambios sugeriría para reducir el tiempo que dedica a tareas administrativas manuales?
+
+    \item ¿Cómo maneja las diferencias entre los saldos contables y los saldos bancarios?
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{Observaciones:} \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+\newpage
+
+\subsubsection{Guía de Entrevista Nº 3 --- Gerente / Administrador}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Dato} \\
+\hline
+Nombre & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\hline
+Cargo & Gerente / Administrador \\
+\hline
+Institución & MINCH SRL. \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\begin{enumerate}
+    \item ¿Qué información financiera necesita consultar periódicamente para la toma de decisiones?
+
+    \item ¿Cómo accede actualmente a los reportes de retenciones y movimientos de caja?
+
+    \item ¿Qué tan importante es contar con información actualizada en tiempo real sobre los saldos bancarios?
+
+    \item ¿Qué indicadores considera clave para evaluar la salud financiera de la empresa?
+
+    \item ¿Qué formato de reportes prefiere (PDF, Excel, dashboard interactivo) y por qué?
+
+    \item ¿Qué espera del sistema en términos de reducción de costos y mejora de la productividad?
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{Observaciones:} \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+\newpage
+
+\subsection{Guía de observación}
+
+\subsubsection{Guía de Observación Nº 1 --- Proceso de retenciones}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Dato} \\
+\hline
+Nombre del observado & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\hline
+Cargo & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\hline
+Área & Contabilidad \\
+\hline
+Proceso observado & Registro y emisión de recibos de retención \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\begin{enumerate}
+    \item ¿Cómo se realiza el proceso de registro de una retención desde que llega la factura del proveedor?
+    \item ¿Quiénes intervienen en el proceso de retención (auxiliar, contador, gerente)?
+    \item ¿Cuáles son los aspectos más importantes que se deben registrar en cada retención?
+    \item ¿En cuánto tiempo se completa el proceso de emisión de un recibo de retención?
+    \item ¿Cuáles de las tareas y actividades son manuales y cuáles están automatizadas?
+    \item ¿Qué herramientas o archivos se utilizan durante el proceso?
+    \item ¿Se identifican errores frecuentes? ¿De qué tipo?
+    \item ¿Cómo se almacenan y organizan los recibos de retención emitidos?
+    \item ¿Cuánto tiempo toma buscar una retención emitida anteriormente?
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{Tiempo estimado del proceso:} \_\_\_\_\_\_\_\_ minutos \\
+\textbf{Fricción tecnológica observada:} \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\textbf{Observaciones:} \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+\newpage
+
+\subsubsection{Guía de Observación Nº 2 --- Movimientos de caja}
+
+\begin{tabularx}{\textwidth}{|l|X|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Campo} & \textbf{Dato} \\
+\hline
+Nombre del observado & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\hline
+Cargo & \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\hline
+Área & Contabilidad \\
+\hline
+Proceso observado & Registro de movimientos de caja \\
+\hline
+\end{tabularx}
+
+\vspace{0.3cm}
+
+\begin{enumerate}
+    \item ¿Cómo se realiza el proceso de registro de un movimiento de caja (ingreso o egreso)?
+    \item ¿Quiénes intervienen en el proceso de registro de movimientos de caja?
+    \item ¿Cuáles son los datos mínimos que se registran en cada movimiento?
+    \item ¿En cuánto tiempo se completa el registro de un movimiento de caja?
+    \item ¿Cuáles de las tareas y actividades son manuales y cuáles automatizadas?
+    \item ¿Qué herramientas externas (Excel, calculadora, papel) se utilizan durante el proceso?
+    \item ¿Cómo se verifica que los saldos registrados coincidan con los saldos bancarios?
+    \item ¿Con qué frecuencia se realizan conciliaciones bancarias?
+    \item ¿Cuánto tiempo toma generar un reporte mensual de movimientos de caja?
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{Tiempo estimado del proceso:} \_\_\_\_\_\_\_\_ minutos \\
+\textbf{Fricción tecnológica observada:} \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_ \\
+\textbf{Observaciones:} \_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+\newpage
+
+\section{Interpretación de los datos recolectados}
+
+\subsection{Encuestas --- Orientación a Scrum}
+
+\begin{longtable}{|L{5cm}|L{5cm}|L{5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Hallazgo} & \textbf{Producto de usuario} & \textbf{Prioridad} \\
+\hline
+\endhead
+\multicolumn{3}{|c|}{\textit{(Registrar aquí los hallazgos de las encuestas una vez aplicadas)}} \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+\end{longtable}
+
+\subsection{Observación --- Orientación a Scrum}
+
+\begin{longtable}{|L{4cm}|L{5cm}|L{6cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Observación} & \textbf{Criterio de aceptación} & \textbf{Definición de terminado} \\
+\hline
+\endhead
+\multicolumn{3}{|c|}{\textit{(Registrar aquí los hallazgos de la observación una vez aplicada)}} \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+\end{longtable}
+
+\subsection{Entrevista --- Orientación a Scrum}
+
+\begin{longtable}{|L{4cm}|L{5cm}|L{6cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Frase textual importante} & \textbf{Interpretación ágil} & \textbf{Producto propuesto} \\
+\hline
+\endhead
+\multicolumn{3}{|c|}{\textit{(Registrar aquí las frases textuales de las entrevistas una vez aplicadas)}} \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+ & & \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Situación del proceso actual}
+
+\subsection{Identificación de actores (Swimlanes)}
+
+A continuación, se identifican los actores que participan en los procesos actuales de retenciones y movimientos de caja en MINCH SRL.:
+
+\begin{itemize}
+    \item \textbf{Auxiliar Contable:} Encargado del registro diario de movimientos de caja, emisión de recibos de retención y mantenimiento de archivos Excel.
+
+    \item \textbf{Contador General:} Responsable de la verificación de cálculos de retenciones, conciliación bancaria y generación de reportes financieros.
+
+    \item \textbf{Gerente / Administrador:} Supervisor del área contable, toma decisiones basadas en los reportes financieros y autoriza movimientos.
+
+    \item \textbf{Proveedor:} Persona o entidad que recibe el recibo de retención al momento de realizar una venta de bienes o servicios a la empresa.
+
+    \item \textbf{Impuestos Nacionales (SIN):} Entidad gubernamental receptora de los pagos tributarios generados por las retenciones.
+\end{itemize}
+
+\subsection{Descripción del flujo actual --- Retenciones}
+
+El proceso actual de retenciones se describe a continuación:
+
+\begin{enumerate}
+    \item \textbf{Disparador (Trigger):} El proveedor entrega una factura o documento de venta sin NIT al área contable.
+
+    \item El Auxiliar Contable recibe la factura y verifica el tipo de bien o servicio adquirido (Servicios o Bienes).
+
+    \item El Auxiliar abre el archivo Excel de retenciones y busca el último número correlativo registrado.
+
+    \item Calcula manualmente el monto de la retención aplicando los porcentajes correspondientes según el tipo (RC-IVA 13\% + IT 3\% para Servicios; IUE 5\% + IT 3\% para Bienes).
+
+    \item Registra los datos en el Excel: fecha, proveedor, monto, tipo, número de retención.
+
+    \item Elabora manualmente el recibo de retención en un formato Word o Excel.
+
+    \item El Contador General revisa y firma el recibo de retención.
+
+    \item Se entrega el recibo al proveedor y se archiva una copia física.
+
+    \item \textbf{Punto de dolor:} El cálculo manual es propenso a errores. La numeración correlativa puede duplicarse si dos personas registran al mismo tiempo. La búsqueda de registros históricos es lenta.
+\end{enumerate}
+
+\subsection{Descripción del flujo actual --- Movimientos de caja}
+
+\begin{enumerate}
+    \item \textbf{Disparador (Trigger):} Se realiza un ingreso o egreso en una de las cuentas bancarias de la empresa.
+
+    \item El Auxiliar Contable recibe el comprobante de la transacción (transferencia, cheque, depósito).
+
+    \item Abre el archivo Excel correspondiente a la cuenta bancaria (BNB, BCP, BISA, etc.).
+
+    \item Identifica la última fila registrada y añade los datos del nuevo movimiento: fecha, descripción, monto, tipo (débito/crédito).
+
+    \item Calcula manualmente el saldo acumulado sumando o restando el monto al saldo anterior.
+
+    \item Si corresponde, emite un recibo de pago en formato Word.
+
+    \item Periódicamente, el Contador General realiza la conciliación comparando el Excel con el extracto bancario.
+
+    \item \textbf{Punto de dolor:} El registro manual consume aproximadamente el 40\% de la jornada laboral. Las versiones del Excel se duplican al compartirlas por correo. Los errores de cálculo de saldos son frecuentes. La generación de reportes mensuales requiere consolidar manualmente varias hojas.
+\end{enumerate}
+
+\subsection{Puntos de dolor identificados}
+
+\begin{longtable}{|L{3cm}|L{4cm}|L{4cm}|L{4cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Área} & \textbf{Punto de dolor} & \textbf{Impacto} & \textbf{Posible solución} \\
+\hline
+\endhead
+Retenciones & Cálculo manual de descuentos propenso a errores & Alto & Automatizar cálculo de retenciones con tasas configurables \\
+\hline
+Retenciones & Duplicación de numeración correlativa & Alto & Numeración automática con bloqueo concurrente \\
+\hline
+Retenciones & Búsqueda lenta de registros históricos & Medio & Base de datos centralizada con búsqueda \\
+\hline
+Caja & Registro manual en Excel (40\% del tiempo) & Alto & Formulario web de registro rápido \\
+\hline
+Caja & Versiones contradictorias del Excel & Alto & Base de datos centralizada con control de acceso \\
+\hline
+Caja & Errores en cálculo de saldos acumulados & Alto & Cálculo automático de saldos con window functions \\
+\hline
+Caja & Conciliación bancaria lenta y manual & Medio & Reportes automáticos con saldos por cuenta \\
+\hline
+Reportes & Generación manual de reportes mensuales & Medio & Exportación automática a PDF y Excel \\
+\hline
+General & Dependencia de herramientas externas (Excel, Word) & Alto & Sistema web unificado \\
+\hline
+\end{longtable}
+
+\end{document}

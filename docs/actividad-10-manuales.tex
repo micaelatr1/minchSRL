@@ -1,0 +1,317 @@
+\documentclass[stu]{apa7}
+
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{times}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{graphicx}
+\usepackage{float}
+
+\geometry{margin=1in}
+
+\title{Actividad 10 --- Elaboración de Manuales Técnicos \\ Sistema de información web contable sobre recibos de retención y movimientos de caja de la empresa minera MINCH SRL.}
+\author{...}
+\affiliation{...}
+\course{...}
+\professor{...}
+\duedate{...}
+
+\setlength{\parindent}{0.5in}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\maketitle
+
+\section*{Estructura General de los Manuales}
+
+Todo manual del sistema SIC-MINCH sigue un formato corporativo único que incluye:
+
+\begin{enumerate}
+    \item \textbf{Portada:} Logotipo de MINCH SRL., nombre del sistema (SIC-MINCH), tipo de manual, versión y fecha.
+    \item \textbf{Control de Cambios:} Tabla con versión, fecha, autor, descripción del cambio y aprobador.
+    \item \textbf{Índice General:} Jerarquía de capítulos y subcapítulos.
+    \item \textbf{Glosario de Términos:} Definiciones de conceptos específicos del dominio contable boliviano.
+    \item \textbf{Cuerpo del documento:} Explicaciones paso a paso con capturas de pantalla.
+    \item \textbf{Anexos:} Plantillas, scripts, formatos de respaldo.
+\end{enumerate}
+
+\begin{longtable}{|C{1.5cm}|C{2.5cm}|L{2.5cm}|L{3.5cm}|L{2.5cm}|C{2cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Versión} & \textbf{Fecha} & \textbf{Autor(es)} & \textbf{Descripción del cambio} & \textbf{Aprobador} & \textbf{Estado} \\
+\hline
+v1.0 & DD/MM/AAAA & [Nombre] & Creación inicial del documento & [PO / QA Lead] & Borrador \\
+\hline
+v1.1 & DD/MM/AAAA & [Nombre] & Corrección de flujo de retención & [PO / QA Lead] & Revisado \\
+\hline
+v2.0 & DD/MM/AAAA & [Nombre] & Versión final post-validación & [PO / QA Lead] & Aprobado \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Manual de Usuario}
+
+\subsection{Audiencia}
+
+Auxiliar Contable (R1), Contador General (R2), Gerente General (R4). El Administrador del Sistema (R3) tiene su propio manual. El Proveedor (R5) es externo y recibe la información impresa por el personal de MINCH.
+
+\subsection{Propósito}
+
+Instruir a los usuarios finales en la operación diaria del sistema para realizar sus tareas específicas, minimizando errores en el registro contable y la emisión de documentos tributarios.
+
+\subsection{Procedimiento de elaboración}
+
+\begin{enumerate}
+    \item Identificar los perfiles de usuario: crear una sección introductoria que describa cada rol y sus permisos.
+    \item Mapear las tareas por rol:
+    \begin{itemize}
+        \item \textbf{R1 (Auxiliar Contable):} Cómo registrar movimiento de caja, cómo registrar movimiento bancario, cómo consultar saldos.
+        \item \textbf{R2 (Contador General):} Cómo registrar retención con cálculo automático, cómo generar recibo PDF, cómo consultar libro de bancos, cómo generar estados de cuenta.
+        \item \textbf{R4 (Gerente):} Cómo visualizar el dashboard, cómo generar reportes con filtros, cómo exportar a PDF/Excel.
+    \end{itemize}
+    \item Redactar paso a paso con formato SOP (Standard Operating Procedure):
+    \begin{itemize}
+        \item Objetivo de la tarea.
+        \item Condiciones previas (ej. ``Debe haber iniciado sesión como Contador'').
+        \item Pasos numerados con capturas de pantalla.
+        \item Resultado esperado (ej. ``Se generará el recibo PDF'').
+    \end{itemize}
+    \item Incluir sección de solución de problemas: errores comunes y cómo resolverlos.
+\end{enumerate}
+
+\begin{longtable}{|L{3cm}|L{2.5cm}|C{2cm}|C{2cm}|C{2cm}|L{2.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Sección / Módulo} & \textbf{Rol(es) involucrados} & \textbf{Tareas documentadas (N°)} & \textbf{Capturas de pantalla (N°)} & \textbf{Estado} & \textbf{Responsable} \\
+\hline
+Introducción y Roles & Todos & 4 & 1 & Revisado & Redactor Técnico \\
+\hline
+Módulo: Retenciones & R2 & 6 & 5 & Borrador & Dev Backend \\
+\hline
+Módulo: Caja & R1 & 4 & 4 & Borrador & Dev Frontend \\
+\hline
+Módulo: Libro de Bancos & R1, R2 & 5 & 4 & No iniciado & Dev Backend \\
+\hline
+Módulo: Estados de Cuenta & R2 & 3 & 3 & No iniciado & Dev Fullstack \\
+\hline
+Módulo: Reportes y Dashboard & R2, R4 & 4 & 3 & No iniciado & Dev Fullstack \\
+\hline
+Solución de Problemas (FAQ) & Todos & 8 & 0 & Pendiente & Soporte \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Manual de Administrador}
+
+\subsection{Audiencia}
+
+Administrador del Sistema (R3) y equipo de soporte TI de MINCH SRL.
+
+\subsection{Propósito}
+
+Gestionar la configuración, los usuarios, los permisos (Spatie Permission) y los parámetros críticos del sistema (impuestos, cuentas bancarias, proveedores).
+
+\subsection{Procedimiento de elaboración}
+
+\begin{enumerate}
+    \item \textbf{Configuración inicial:} Cómo instalar el sistema por primera vez (resumido, remitiendo al manual de instalación).
+    \item \textbf{Gestión de usuarios y roles (RBAC):} Procedimiento para crear, modificar o deshabilitar usuarios, y asignar los roles con sus 35 permisos.
+    \item \textbf{Parametrización del negocio:}
+    \begin{itemize}
+        \item Configuración de impuestos/tasas (RC-IVA 13\%, IUE 5\%, IT 3\%).
+        \item Configuración de cuentas bancarias (nombre, número, iniciales, moneda).
+        \item Gestión de proveedores y clientes.
+    \end{itemize}
+    \item \textbf{Gestión de respaldos y logs:} Cómo programar respaldos automáticos de la base de datos y revisar los logs de actividad.
+    \item \textbf{Mantenimiento:} Limpieza de registros antiguos, regeneración de caché, monitoreo de colas.
+\end{enumerate}
+
+\begin{longtable}{|L{3.5cm}|C{2.5cm}|C{2.5cm}|C{2.5cm}|C{1.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Módulo administrativo} & \textbf{Procedimiento documentado} & \textbf{Incluye capturas/diagramas} & \textbf{Referencia a seguridad} & \textbf{Estado} \\
+\hline
+Usuarios y Roles & Creación de usuarios y asignación de roles con Spatie Permission & Sí (Formulario + Lista) & Se indica política de contraseñas (CI como default) & OK \\
+\hline
+Parámetros de Impuestos & Modificación de tasas (RC-IVA, IUE, IT) por tipo S/G/A & Sí (Panel de configuración) & Advertencia: ``Cambiar tasas requiere autorización del Contador'' & OK \\
+\hline
+Gestión de Cuentas Bancarias & CRUD de cuentas con moneda (BOB/USD/EUR) & Sí (Vista de lista + formulario) & N/A & OK \\
+\hline
+Respaldos (Backups) & Programación de backup automático con schedule de Laravel & Sí (Comandos Artisan) & Se indica ubicación cifrada de respaldos & OK \\
+\hline
+Logs de Auditoría & Consulta de logs de acceso y acciones con spatie/laravel-activitylog & Sí (Pantalla de admin) & No se pueden eliminar logs (cumple normativa) & OK \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Manual de Instalación y Despliegue}
+
+\subsection{Audiencia}
+
+DevOps, Ingenieros de Sistemas y personal de infraestructura.
+
+\subsection{Propósito}
+
+Proveer una guía técnica para desplegar el sistema SIC-MINCH en un entorno de producción o pruebas desde cero, incluyendo la preparación del servidor, la configuración de Laravel y la puesta en marcha.
+
+\subsection{Procedimiento de elaboración}
+
+\begin{enumerate}
+    \item \textbf{Requisitos previos:}
+    \begin{itemize}
+        \item \textbf{Hardware:} CPU 2 núcleos, 4 GB RAM, 20 GB disco (producción).
+        \item \textbf{Software:} PHP 8.3, MySQL 8.0, Composer 2.x, Node.js 20.x, Nginx.
+        \item \textbf{Puertos de red:} 80/443 (HTTP/HTTPS), 3306 (MySQL, solo interno).
+    \end{itemize}
+    \item \textbf{Pasos de instalación:}
+    \begin{enumerate}
+        \item Clonar repositorio: \texttt{git clone <url> \&\& cd minch}
+        \item Instalar dependencias: \texttt{composer install \&\& npm install}
+        \item Configurar variables de entorno: \texttt{cp .env.example .env}
+        \item Generar clave: \texttt{php artisan key:generate}
+        \item Ejecutar migraciones y seeders: \texttt{php artisan migrate --seed}
+        \item Compilar assets: \texttt{npm run build}
+    \end{enumerate}
+    \item \textbf{Configuración de Seguridad:}
+    \begin{itemize}
+        \item Certificado SSL con Let's Encrypt.
+        \item Configuración de firewall (UFW).
+        \item Usuario dedicado para base de datos.
+    \end{itemize}
+    \item \textbf{Verificación del despliegue:} Checklist post-instalación.
+\end{enumerate}
+
+\begin{longtable}{|L{3.5cm}|C{2.5cm}|C{2cm}|C{2.5cm}|L{3cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Paso / Sección} & \textbf{Comandos / Acciones documentadas} & \textbf{¿Es reproducible? (Sí/No)} & \textbf{Estado} & \textbf{Observaciones / Errores} \\
+\hline
+Prerrequisitos & Instalación de PHP 8.3, MySQL 8.0, Composer 2.x, Node.js 20.x & Sí & OK & Documentar versión exacta de MySQL (8.0.32) \\
+\hline
+Variables de Entorno & Archivo .env.example con 20 variables (DB, APP, MAIL, QUEUE, SESSION) & Sí & OK & Falta la variable MAIL\_ENCRYPTION en el ejemplo. Se agrega. \\
+\hline
+Instalación de dependencias & \texttt{composer install \&\& npm install} & Sí & OK & npm tiene \texttt{ignore-scripts=true} en .npmrc. Se agrega nota. \\
+\hline
+Migraciones y Semillas & \texttt{php artisan migrate --seed} & Sí & OK & Las semillas crean datos de demostración (DatabaseSeeder). \\
+\hline
+Compilación de assets & \texttt{npm run build} & Sí & OK & Tarda 30 segundos en compilar con Vite. \\
+\hline
+Certificado SSL & \texttt{certbot --nginx} & Sí (con dominio) & OK & En localhost se sugiere autofirmado. \\
+\hline
+Prueba de Humo & Acceder a la URL principal devuelve login & Sí & OK & Respuesta en 200ms. \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Manual de Base de Datos}
+
+\subsection{Audiencia}
+
+Administradores de Base de Datos (DBA), Arquitectos de Software y personal de soporte avanzado.
+
+\subsection{Propósito}
+
+Describir el esquema de la base de datos MySQL, las relaciones entre tablas, las migraciones de Laravel, los respaldos y la recuperación de desastres, asegurando la integridad referencial de los datos contables.
+
+\subsection{Procedimiento de elaboración}
+
+\begin{enumerate}
+    \item \textbf{Diagrama Entidad-Relación (DER):} Incluir diagrama generado con MySQL Workbench o DBeaver.
+    \item \textbf{Diccionario de Datos:} Listar todas las tablas con sus campos, tipos de datos, restricciones (PK, FK, CHECK) y descripción.
+    \item \textbf{Migraciones:} Documentar las migraciones clave de Laravel (retentions, transactions, boxes, movements, etc.).
+    \item \textbf{Procedimientos y Triggers:} Documentar la lógica de negocio implementada a nivel de BD (ej. cálculos de saldo con funciones de ventana).
+    \item \textbf{Plan de Respaldo y Recuperación (BDR):} Guía para realizar respaldos con \texttt{mysqldump}, respaldos incrementales y pasos para restaurar la BD.
+    \item \textbf{Índices y optimización:} Explicar los índices creados para garantizar el rendimiento.
+\end{enumerate}
+
+\begin{longtable}{|L{3cm}|L{3.5cm}|L{4cm}|C{2cm}|C{2.5cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Componente} & \textbf{Nombre / Identificador} & \textbf{Descripción} & \textbf{Propósito / Estado} & \textbf{Documentación adjunta} \\
+\hline
+Tabla principal & retentions & Almacena los datos de retenciones: tipo (S/G), monto, fecha, código, proveedor, usuario. Incluye summary en JSON para descuentos. & Tabla crítica & Sí (Diccionario detallado) \\
+\hline
+Tabla principal & transactions & Registro de movimientos bancarios con número fiscal, cuenta, tipo de pago (T/CH), número de cheque. & Tabla crítica & Sí (Incluye restricciones CHECK) \\
+\hline
+Tabla principal & boxes & Registro de movimientos de caja con numeración mensual. & Tabla crítica & Sí \\
+\hline
+Tabla principal & movements & Tabla polimórfica que unifica movimientos (tipo D/C/B). Tiene one-to-one con transactions y boxes. & Tabla crítica & Sí (PK compuesta lógica) \\
+\hline
+Tabla maestra & taxes & Catálogo de impuestos con nombre, iniciales, porcentaje y tipo aplicable (S/G/A). & Tabla maestra & Sí \\
+\hline
+Tabla maestra & accounts & Cuentas bancarias con nombre, número de cuenta, iniciales, moneda. & Tabla maestra & Sí \\
+\hline
+Tabla maestra & persons / suppliers / customers & Personas compartidas con one-to-one hacia proveedores y clientes. & Tabla maestra & Sí \\
+\hline
+Procedimiento (Eloquent) & Retention::syncDiscounts() & Calcula descuentos aplicando: total = monto / (1 - sum(tasas)/100). Crea registros Discount por cada impuesto. & Lógica de negocio clave & Sí (Código PHP comentado) \\
+\hline
+Procedimiento (Evento) & Transaction::creating() & Asigna número fiscal secuencial con lockForUpdate() dentro del año fiscal (octubre--septiembre). & Lógica de negocio clave & Sí \\
+\hline
+Procedimiento (Evento) & Box::creating() & Asigna número de caja secuencial con lockForUpdate() dentro del mes calendario. & Lógica de negocio clave & Sí \\
+\hline
+Vista (SQL) & Saldo corriente con ventana & SELECT SUM(amount) OVER (PARTITION BY account\_id ORDER BY date, id) para libro de bancos. & Optimización & Sí (Justificación de rendimiento) \\
+\hline
+Índice & idx\_movements\_date\_type & Índice compuesto en movements por date y type. & Optimización & Sí \\
+\hline
+Índice & idx\_retentions\_code & Índice único en retentions por code. & Integridad & Sí \\
+\hline
+Script de respaldo & backup\_automatico.sh & Script de shell para mysqldump cifrado con rotación de 7 días. & Respaldo & Sí (Incluye ejemplo de cron) \\
+\hline
+\end{longtable}
+
+\newpage
+
+\section{Glosario de Términos}
+
+\begin{longtable}{|L{3.5cm}|L{11cm}|}
+\hline
+\rowcolor[gray]{0.9}
+\textbf{Término} & \textbf{Definición} \\
+\hline
+RC-IVA & Régimen Complementario del Impuesto al Valor Agregado. Retención del 13\% aplicable a servicios. \\
+\hline
+IUE & Impuesto sobre las Utilidades de las Empresas. Retención del 5\% aplicable a bienes. \\
+\hline
+IT & Impuesto a las Transacciones. Retención del 3\% aplicable tanto a servicios como a bienes. \\
+\hline
+Movimiento tipo D & Débito --- movimiento que incrementa el saldo de la cuenta (ingreso). \\
+\hline
+Movimiento tipo C & Crédito --- movimiento que disminuye el saldo de la cuenta (egreso). \\
+\hline
+Movimiento tipo B & Balance --- registro de saldo inicial o ajuste de balance. \\
+\hline
+Año fiscal & Período contable de octubre a septiembre para la numeración de transacciones bancarias. \\
+\hline
+lockForUpdate() & Mecanismo de bloqueo pesimista a nivel de base de datos para evitar duplicados en numeración correlativa. \\
+\hline
+NIT & Número de Identificación Tributaria en Bolivia. \\
+\hline
+Spatie Permission & Paquete Laravel para gestión de roles y permisos RBAC. \\
+\hline
+TallStackUI & Conjunto de componentes UI para Livewire (tablas, modales, botones, selectores, datepicker). \\
+\hline
+mPDF & Biblioteca PHP para generación de documentos PDF. \\
+\hline
+Maatwebsite Excel & Biblioteca Laravel para exportación e importación de archivos Excel. \\
+\hline
+SIC-MINCH & Sistema de Información Contable para la empresa minera MINCH SRL. \\
+\hline
+\end{longtable}
+
+\end{document}
