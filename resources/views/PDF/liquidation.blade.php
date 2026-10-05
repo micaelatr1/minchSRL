@@ -76,7 +76,7 @@
 
     $totFlete = (float) $l->flete * $l->tmh;
     $totRoll = (float) $l->rollback * $l->tmh;
-    $totRemesa = ($totalNetoUSD * (float) $l->remesa_pct / 100) + ($metal === 'pb' ? 305 : 385);
+    $totRemesa = ($totalNetoUSD * (float) $l->remesa_pct / 100) + (float) $l->remesa_fijo;
     $totGastos = $totFlete + $totRoll + $gastosOp + $totRemesa;
     $totalUSD = $totalNetoUSD - $totGastos;
     $totalBs = $totalUSD * (float) $l->tc;

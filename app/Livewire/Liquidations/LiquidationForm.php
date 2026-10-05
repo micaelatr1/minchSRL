@@ -186,6 +186,8 @@ class LiquidationForm extends Component
 
     public $remesaPct = 0;          // remesa_pct
 
+    public $remesaFijo = 0;         // remesa_fijo
+
     // Royalties (DB & Alpine)
     public $regaliaZn = 0;          // regalia_zn
 
@@ -285,6 +287,7 @@ class LiquidationForm extends Component
             $this->plomo = 52.88;
             $this->Pb = 1936;
             $this->regaliaPb = 3;
+            $this->remesaFijo = 305;
         } else {
             $this->tmh = 22.720;
             $this->h2o = 11.45;
@@ -315,6 +318,7 @@ class LiquidationForm extends Component
             $this->zinc = 54.06;
             $this->Zn = 3434;
             $this->regaliaZn = 3;
+            $this->remesaFijo = 385;
         }
     }
 
@@ -359,6 +363,7 @@ class LiquidationForm extends Component
         $this->flete = $liquidation->flete;
         $this->rollback = $liquidation->rollback;
         $this->remesaPct = $liquidation->remesa_pct;
+        $this->remesaFijo = $liquidation->remesa_fijo;
         $this->tc = $liquidation->tc;
         $this->regaliaZn = $liquidation->regalia_zn;
         $this->regaliaPb = $liquidation->regalia_pb;
@@ -456,7 +461,7 @@ class LiquidationForm extends Component
             'PSb', 'PSbUSD', 'PSbp', 'PSiO2', 'PSiO2USD', 'PSiO2p',
             'PSn', 'PSnUSD', 'PSnp',
             'AgUSD', 'agNIM', 'regaliaAg', 'factorRegalia',
-            'tc', 'flete', 'rollback', 'remesaPct',
+            'tc', 'flete', 'rollback', 'remesaPct', 'remesaFijo',
             'cns', 'comibol', 'fedecomin', 'fencomin', 'aporteCoop',
             'NIM', 'zinc', 'Zn', 'regaliaZn',
             'nimPb', 'plomo', 'Pb', 'regaliaPb', 'refinacion',
@@ -524,6 +529,7 @@ class LiquidationForm extends Component
             'flete' => $this->cv($this->flete),
             'rollback' => $this->cv($this->rollback),
             'remesa_pct' => $this->cv($this->remesaPct),
+            'remesa_fijo' => $this->cv($this->remesaFijo),
             'tc' => $this->cv($this->tc),
             'regalia_zn' => $this->cv($this->regaliaZn),
             'regalia_pb' => $this->cv($this->regaliaPb),
