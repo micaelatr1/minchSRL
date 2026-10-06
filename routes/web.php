@@ -124,6 +124,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('liquidations', LiquidationComponent::class)->name('liquidations');
         Route::get('liquidations/form/{id?}', LiquidationForm::class)->name('liquidation.form');
         Route::get('liquidation/pdf/{liquidation}', [PdfController::class, 'liquidationPdf'])->name('liquidation.pdf');
+        Route::get('liquidation/simple/{liquidation}', [PdfController::class, 'liquidationSimplePdf'])->name('liquidation.simple.pdf');
     });
 
     Route::middleware('permission:Ver cotizaciones')->group(function () {

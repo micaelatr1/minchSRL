@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->id();
             $table->string('file', 150)->nullable();
+            $table->string('tipo', 10)->nullable();
+            $table->string('codigo', 50)->nullable();
+            $table->date('fecha')->nullable();
             $table->unsignedBigInteger('person_id');
             $table->unsignedBigInteger('cooperative_id')->nullable();
             $table->foreign('cooperative_id')->references('id')->on('cooperatives')->onDelete('set null');

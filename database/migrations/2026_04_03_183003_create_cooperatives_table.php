@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('cooperatives', function (Blueprint $table) {
             $table->id();
             $table->string('name', 200);
-            $table->string('concession', 250);
-            $table->string('mine', 250);
+            $table->string('concession', 250)->nullable();
+            $table->string('mine', 250)->nullable();
             $table->string('municipality', 150);
-            $table->string('NIM', 200);
+            $table->string('NIM', 200)->nullable();
             $table->string('NIT', 200);
-            $table->decimal('contribution', 4, 2);
+            $table->decimal('contribution', 4, 2)->default(0);
             $table->decimal('comibol', 4, 2);
             $table->timestamps();
         });

@@ -21,4 +21,9 @@ class Cooperative extends Model
     {
         return $this->hasMany(Customer::class);
     }
+
+    public function getOptionLabelAttribute(): string
+    {
+        return $this->mine ? "{$this->name} - {$this->mine}" : $this->name;
+    }
 }

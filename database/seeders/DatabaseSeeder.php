@@ -134,6 +134,8 @@ class DatabaseSeeder extends Seeder
             'user_id' => $user->id,
         ]);
 
+        $this->call(CooperativeSeeder::class);
+        $this->call(CustomerSeeder::class);
         $this->call(TaxeSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(InventoryRrhhPermissionSeeder::class);

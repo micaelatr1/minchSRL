@@ -225,4 +225,23 @@ class PdfController extends Controller
 
         return $mpdf->Output('liquidacion-'.$liquidation->lote.'.pdf', 'I');
     }
+
+    public function liquidationSimplePdf(Liquidation $liquidation)
+    {
+        $liquidation->load('customer');
+
+        $html = view('PDF.liquidationSimple', ['l' => $liquidation])->render();
+
+        $mpdf = new Mpdf([
+            'mode' => 'utf-8',
+            'format' => 'A4',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 10,
+            'margin_bottom' => 10,
+        ]);
+        $mpdf->WriteHTML($html);
+
+        return $mpdf->Output('liquidacion-simple-'.$liquidation->lote.'.pdf', 'I');
+    }
 }

@@ -28,4 +28,9 @@ class Liquidation extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function getCiAttribute(): ?string
+    {
+        return $this->customer?->ci;
+    }
 }

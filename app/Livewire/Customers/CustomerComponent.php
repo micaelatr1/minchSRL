@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Customers;
 
+use App\Models\Cooperative;
 use App\Models\Customer;
 use App\Models\Person;
 use Illuminate\Database\Eloquent\Builder;
@@ -18,6 +19,8 @@ class CustomerComponent extends Component
 
     public $customerId;
 
+    public $personId;
+
     public $full_name;
 
     public $ci;
@@ -28,9 +31,28 @@ class CustomerComponent extends Component
 
     public $cooperative_id;
 
+    public $tipo;
+
+    public $codigo;
+
+    public $fecha;
+
     public ?int $quantity = 10;
 
     public ?string $search = null;
+
+    public array $cooperativeOptions = [];
+
+    public function mount(): void
+    {
+        $this->cooperativeOptions = Cooperative::query()
+            ->get(['id', 'name', 'mine'])
+            ->map(fn (Cooperative $cooperative) => [
+                'value' => $cooperative->id,
+                'label' => $cooperative->option_label,
+            ])
+            ->toArray();
+    }
 
     protected function rules()
     {
@@ -40,10 +62,13 @@ class CustomerComponent extends Component
                 'required',
                 'min:4',
                 'max:15',
-                Rule::unique('people', 'ci')->ignore($this->customerId, 'id'),
+                Rule::unique('people', 'ci')->ignore($this->personId, 'id'),
             ],
             'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:5120',
             'cooperative_id' => 'nullable|exists:cooperatives,id',
+            'tipo' => 'nullable|in:'.implode(',', Customer::TIPOS),
+            'codigo' => 'nullable|string|max:50',
+            'fecha' => 'nullable|date',
         ];
     }
 
@@ -68,6 +93,10 @@ class CustomerComponent extends Component
                 'file' => $customer->file ? basename($customer->file) : '',
                 'file_path' => $customer->file ? \Storage::url($customer->file) : null,
                 'cooperative' => $customer->cooperative?->name ?? '',
+                'tipo' => $customer->tipo ?? '',
+                'tipo_color' => $customer->tipo_color,
+                'codigo' => $customer->codigo ?? '',
+                'fecha' => $customer->fecha?->format('d/m/Y') ?? '',
                 'model' => $customer,
             ];
         });
@@ -77,6 +106,9 @@ class CustomerComponent extends Component
                 ['index' => 'id', 'label' => '#'],
                 ['index' => 'ci', 'label' => 'CI'],
                 ['index' => 'full_name', 'label' => 'Nombre Completo'],
+                ['index' => 'tipo', 'label' => 'Tipo'],
+                ['index' => 'codigo', 'label' => 'Código'],
+                ['index' => 'fecha', 'label' => 'Fecha'],
                 ['index' => 'file', 'label' => 'Archivo'],
                 ['index' => 'cooperative', 'label' => 'Cooperativa'],
                 ['index' => 'action', 'label' => 'Acciones'],
@@ -107,6 +139,9 @@ class CustomerComponent extends Component
             'file' => $path,
             'cooperative_id' => $this->cooperative_id,
             'person_id' => $person->id,
+            'tipo' => $this->tipo,
+            'codigo' => $this->codigo,
+            'fecha' => $this->fecha,
         ]);
 
         $this->toast()
@@ -121,9 +156,13 @@ class CustomerComponent extends Component
     public function edit(Customer $customer)
     {
         $this->customerId = $customer->id;
+        $this->personId = $customer->person_id;
         $this->existingFile = $customer->file;
         $this->file = null;
         $this->cooperative_id = $customer->cooperative_id;
+        $this->tipo = $customer->tipo;
+        $this->codigo = $customer->codigo;
+        $this->fecha = $customer->fecha?->format('Y-m-d');
         $this->full_name = $customer->person->full_name;
         $this->ci = $customer->person->ci;
         $this->js("window.\$tsui.open.modal('crud-modal')");
@@ -153,6 +192,9 @@ class CustomerComponent extends Component
         $customer->update([
             'file' => $path,
             'cooperative_id' => $this->cooperative_id,
+            'tipo' => $this->tipo,
+            'codigo' => $this->codigo,
+            'fecha' => $this->fecha,
         ]);
 
         $this->toast()
@@ -183,7 +225,7 @@ class CustomerComponent extends Component
     {
         $this->resetValidation();
         $this->dispatch('close-modal');
-        $this->reset(['customerId', 'full_name', 'ci', 'file', 'existingFile', 'cooperative_id']);
+        $this->reset(['customerId', 'personId', 'full_name', 'ci', 'file', 'existingFile', 'cooperative_id', 'tipo', 'codigo', 'fecha']);
     }
 
     public function updatedSearch()

@@ -198,3 +198,44 @@ Files in `app/Livewire/Rrhh/`, `resources/views/livewire/rrhh/`, and `app/Models
 - Routes at `/rrhh/empleados`, `/rrhh/planillas`, `/rrhh/vacaciones`
 - Sidebar group "RRHH" under separator
 - Demo data: 4 employees + 1 draft payroll
+
+## Session context (Oct 2026)
+
+### Reporte CUADRO PRODUCCION — ⚠️ PENDIENTE DE AJUSTES
+
+Reporte de liquidaciones en `GET /reports/liquidations` (tabla Livewire en pantalla + export Excel `.xlsx`, **sin PDF**).
+
+> **Estado: funcional pero NO terminado.** Faltan ajustes en esta sección.
+> Los tests se dejaron aparte a petición del usuario ("olvida los tests") — retomarlos cuando se cierren los ajustes.
+
+**Archivos nuevos/modificados:**
+
+| Archivo | Rol |
+|---|---|
+| `app/Services/LiquidationCalculator.php` | Fuente única de fórmulas (extraídas del form) |
+| `app/Exports/LiquidationReportExport.php` | Excel 27 columnas, `narrowFirstColumn=false`, sobrescribe `calculateTotals()` |
+| `app/Livewire/Reports/LiquidationReportsComponent.php` | Filtros `mes`/`metal`, `rows`/`totals`, `exportarExcel()` |
+| `resources/views/livewire/reports/liquidation-reports-component.blade.php` | Cabecera 2 niveles + footer totales |
+| `database/factories/LiquidationFactory.php` | Estados `zn()` / `pb()` (NO usar `state('string')`) |
+| `database/seeders/LiquidationDemoSeeder.php` | 7 liquidaciones demo (mes actual + anterior) |
+| `tests/Feature/Services/LiquidationCalculatorTest.php` | 6 tests de fórmulas |
+| `tests/Feature/Http/LiquidationReportTest.php` | 6 tests Livewire + export |
+| `tests/Feature/ExportsTest.php` | +3 tests de export |
+
+**Decisiones ya tomadas (no re-preguntar):**
+- Alcance: filtro por **mes** (36 meses) + metal opcional; sin rango de fechas.
+- Omitidos **ANTICIPO** y **DIFERENCIA** (no existen en BD).
+- `PESO NETO TMS` = TMNS (humedad + merma).
+- `VALOR BRUTO USD` = `totalNetoUSD`; `VALOR LIQ. Bs` = `totalBs`; `LIQUIDO PAGABLE Bs` = `totalBs − TOTAL DEDUCC`.
+- `FIJACIÓN PRECIOS PB/AG` = `market_zn`/`market_pb` y `market_ag`.
+- **Se replica el FORM** (no el PDF): `valorMetal` y `totalplata` **no** se redondean en Zn. Ver divergencia en `resources/views/PDF/liquidation.blade.php:46,50`.
+- `BaseReportExport` **no se modifica** (riesgo para los 3 reportes existentes). Encabezados de grupo fusionados en Excel: **fuera** por defecto.
+
+**Verificado:**
+- Ruta responde 200 y renderiza las 27 columnas, 5 filas de oct-2026 y footer de totales.
+- Export real genera `cuadro.xlsx` con merges `A1:C1`/`D1:Z1` + columna `AA` de código.
+- `php artisan db:seed --class=LiquidationDemoSeeder` → 7 filas.
+- `git stash` confirma que **los 9 fallos de pint** (`routes/web.php`, `PurchaseService.php`, `PayrollComponent.php`, `KardexComponent.php`, `ContractShowComponent.php`, `VacationComponent.php`, `PayrollFormComponent.php`, `DatabaseSeeder.php`, `PurchaseServiceTest.php`) y **los 21 fallos de `php artisan test`** (Auth/Settings + Dashboard/Product/Purchase) son **preexistentes** y ajenos a esta sección.
+
+**Pendiente (ajustes de la sección):** ajustes de contenido/UX aún por definir con el usuario; retomar la limpieza del lint y la reanudación de los tests después.
+

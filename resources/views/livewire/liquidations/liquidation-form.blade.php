@@ -184,13 +184,13 @@
     get leyPorcentual() { return this.ley - this.deduccionMetal; },
     get valorMetal() {
         const base = this.leyPorcentual * this.precioMetal / 100;
-        return this.metal === 'zn' ? base : Number(base.toFixed(2)) * 0.95;
+        return Number(base.toFixed(2)) * (this.metal === 'pb' ? 0.95 : 1);
     },
     get plataporcentual() { return this.platacalculate - this.deduccionAg; },
     get platavalue() { return Number(this.AgUSD) * this.payAg; },
     get totalplata() {
         const raw = this.plataporcentual * this.platavalue;
-        return this.metal === 'pb' ? Number(raw.toFixed(2)) : raw;
+        return Number(raw.toFixed(2));
     },
     get baseEscala() { return this.precioMetal > Number(this.base) ? this.precioMetal - Number(this.base) : 0; },
     get baseTotal() { return this.precioMetal > Number(this.base) ? (this.precioMetal - Number(this.base)) * Number(this.basePorcentaje) : 0; },
@@ -752,8 +752,8 @@
         <x-slot:footer>
             <div class="flex justify-end gap-2">
                 @if ($this->id)
-                    <x-button wire:navigate href="{{ route('liquidation.pdf', $this->id) }}" text="PDF"
-                        icon="arrow-down-tray" color="emerald" outline />
+                    <a href="{{ route('liquidation.pdf', $this->id) }}"  text="PDF"
+                        icon="arrow-down-tray" color="emerald" outline >PDF</a>
                 @endif
                 <x-button wire:navigate href="{{ route('liquidations') }}" text="Cancelar" icon="x-mark"
                     color="secondary" />

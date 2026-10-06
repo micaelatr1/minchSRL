@@ -1,0 +1,232 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class CustomerSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+         // 1) PEOPLE: una fila por persona unica (full_name + ci)
+        $people = [
+            ['full_name' => 'ALEX JUAN COPA PACHATICO', 'ci' => 14754374],
+            ['full_name' => 'JAIME MAMANI PACO', 'ci' => 8659174],
+            ['full_name' => 'ISAIAS MAMANI JAITA', 'ci' => 8558442],
+            ['full_name' => 'ROMULO JAITA ROJAS', 'ci' => 5121566],
+            ['full_name' => 'SANTOS JAITA JULIAN', 'ci' => 5072119],
+            ['full_name' => 'LUIS ALBERTO LOPEZ SALAZAR', 'ci' => 8656050],
+            ['full_name' => 'RICARDO QUENTASI CHUQUISEA', 'ci' => 4005367],
+            ['full_name' => 'FABIAN FLORES FUENTES', 'ci' => 8558224],
+            ['full_name' => 'LEONCIO JOSE CHAMBI QUISPE', 'ci' => 5072486],
+            ['full_name' => 'GERSON MAMANI ORCKO', 'ci' => 5521233],
+            ['full_name' => 'SANTIAGO OYOLA MARCA', 'ci' => 3991184],
+            ['full_name' => 'REYNALDO JARATA TACURI', 'ci' => 6679707],
+            ['full_name' => 'RENE JAITA QUENTASI', 'ci' => 5121565],
+            ['full_name' => 'NELSON JAITA ROJAS', 'ci' => 6705534],
+            ['full_name' => 'JOSE LUIS OYOLA OQUENDO', 'ci' => 6590361],
+            ['full_name' => 'TEOFILO RAMOS OQUENDO', 'ci' => 6679255],
+            ['full_name' => 'TEOFILO CUELLAR MAMANI', 'ci' => 5506445],
+            ['full_name' => 'PASTOR OQUENDO ORCKO', 'ci' => 5542861],
+            ['full_name' => 'FILEMON MARTINEZ FLORES', 'ci' => 8555770],
+            ['full_name' => 'VLADIMIR EDSON SALAZAR ORCKO', 'ci' => 12974489],
+            ['full_name' => 'SAMUEL ORCKO MARTINEZ', 'ci' => 10575826],
+            ['full_name' => 'ESEQUIAS SAMUEL SALAZAR MAMANI', 'ci' => 8653424],
+            ['full_name' => 'JAIME GREGORIO CARBASUYO SALAZAR', 'ci' => '8514765-1C'],
+            ['full_name' => 'RIONY OQUENDO CHUQUISEA', 'ci' => 6570170],
+            ['full_name' => 'FREDDY ORCKO MARTINEZ', 'ci' => 4016132],
+            ['full_name' => 'JOSE ARMANDO QUENTASI LOPEZ', 'ci' => 8620663],
+            ['full_name' => 'SANTIAGO ORCKO MARTINEZ', 'ci' => 8504133],
+            ['full_name' => 'BLADIMIR OQUENDO HUMANIS', 'ci' => 8595697],
+            ['full_name' => 'ROLY MAMANI CANAZA', 'ci' => 6704159],
+            ['full_name' => 'ADDYQUES JAITA QUENTASI', 'ci' => 8602906],
+            ['full_name' => 'CARLOS VENTURA GUTIERREZ', 'ci' => 5545434],
+            ['full_name' => 'JUAN MAMANI JULIAN', 'ci' => 4004170],
+            ['full_name' => 'WILBER HUMANIZ MAMANI', 'ci' => 6612893],
+            ['full_name' => 'GUALBERTO APAZA CONDORI', 'ci' => 8576673],
+            ['full_name' => 'VLADIMIR EULOGIO MAMANI CHUQUISEA', 'ci' => 10537522],
+            ['full_name' => 'DULFREDO JAITA JULIAN', 'ci' => 5505648],
+            ['full_name' => 'JUAN VILLCA TORREZ', 'ci' => 13262351],
+            ['full_name' => 'OSCAR MILO BARITO COLQUE', 'ci' => 5556441],
+            ['full_name' => 'MARIO HUARACHI BARITO', 'ci' => 6679256],
+            ['full_name' => 'BASILIO TARQUI PACHATICO', 'ci' => 3706416],
+            ['full_name' => 'LEONADO TORREZ MAMANI', 'ci' => 3677049],
+            ['full_name' => 'FREDDY NICASIO CUENCA', 'ci' => 8659325],
+            ['full_name' => 'JOSE LUIS MAMANI TARQUI', 'ci' => 6672200],
+            ['full_name' => 'TORIBIO MAMANI HUARITO', 'ci' => 3969563],
+            ['full_name' => 'REYNALDO ROMANO NAVARRO', 'ci' => 1234546],
+            ['full_name' => 'MAURICIO OMAR BORDA VILLAPUMA', 'ci' => 8514980],
+            ['full_name' => 'JACQUELINE VILLAPUMA ARANCIBIA', 'ci' => 4002785],
+            ['full_name' => 'CARLOS TORREZ TAPIA', 'ci' => 36700369],
+            ['full_name' => 'FELICIANO TARQUI TICRA', 'ci' => 4006293],
+            ['full_name' => 'SIMON TARQUI MAMANI', 'ci' => 3692296],
+            ['full_name' => 'LUIS ALBERTO TORREZ MAMANI', 'ci' => 10474175],
+            ['full_name' => 'WILFREDO TARQUI QUISPE', 'ci' => 8513706],
+            ['full_name' => 'ALEJANDRO ORCKO LLANTO', 'ci' => 6581184],
+            ['full_name' => 'ANGEL R RODRIGUEZ LANCHIPA', 'ci' => 3434539],
+            ['full_name' => 'VIRGILIO DIAZ ARENAS', 'ci' => 8618191],
+            ['full_name' => 'CLEOFE FLORES JANCKO DE VILLEGAS', 'ci' => 5078654],
+            ['full_name' => 'CASIANO ISLA MAMANI', 'ci' => 5078655],
+            ['full_name' => 'CLAUDIA ROMANO QUISPE', 'ci' => 4122051],
+            ['full_name' => 'ROLANDO ARANDO VILLAGRA', 'ci' => 5076627],
+            ['full_name' => 'FAUSTO BAUTISTA PACCI', 'ci' => 6701437],
+            ['full_name' => 'ANTONIO GALLEGO CORDOVA', 'ci' => 6686937],
+            ['full_name' => 'JUSTINO ROJAS ISLA', 'ci' => 8696990],
+            ['full_name' => 'CLEMENTE QUISPE CRUZ', 'ci' => 5070027],
+            ['full_name' => 'EFRAIN QUISPE ALACA', 'ci' => 8553189],
+            ['full_name' => 'EDUARDO VARGAS CUELLAR', 'ci' => 4012261],
+            ['full_name' => 'ESTEBAN RICHARD MEDINA MOYA', 'ci' => 5077619],
+            ['full_name' => 'FIDEL LIMACHI CRUZ', 'ci' => 8510785],
+            ['full_name' => 'GERMAN ESCOBAR QUISPE', 'ci' => 4000733],
+            ['full_name' => 'SIMON CARO FLORES', 'ci' => 8577089],
+            ['full_name' => 'EFRAIN QUECAÑO HUANCA', 'ci' => 5520883],
+            ['full_name' => 'DIEGO ARMANDO ROJAS RAMOS', 'ci' => 6650393],
+            ['full_name' => 'DANIEL CRUZ SALAZAR', 'ci' => 10470809],
+            ['full_name' => 'ALEX SANDER MAMANI CHUCUSEA', 'ci' => 10470810],
+            ['full_name' => 'MARIO CARO FLORES', 'ci' => 8557665],
+            ['full_name' => 'ANTONIO RAMOS CRUZ', 'ci' => 6642493],
+            ['full_name' => 'ISMAEL HUGO FLORES ESTRADA', 'ci' => 8525933],
+            ['full_name' => 'NELSON ARIEL ARI QUISPE', 'ci' => 4002265],
+            ['full_name' => 'NINFA MONTECINOS HIDALGO', 'ci' => 1392952],
+            ['full_name' => 'JUSTO NOEL CASANOVA FRANCO', 'ci' => 3672498],
+            ['full_name' => 'RENE LUIS RAMOS COSTAS', 'ci' => 3966037],
+            ['full_name' => 'LOURDES IVONE PINTO VARGAS', 'ci' => 8595773],
+            ['full_name' => 'TRIFON MAMANI ENCIMAS', 'ci' => 8600206],
+            ['full_name' => 'JESUS REYNALDO AYARZA ELIAS', 'ci' => 5570626],
+            ['full_name' => 'RENE PINTO CALIZAYA', 'ci' => 3662760],
+            ['full_name' => 'MARIO CHARA DUARTE', 'ci' => 8646522],
+            ['full_name' => 'MIGUEL ANGEL ALEJO ARCE', 'ci' => 8548810],
+            ['full_name' => 'DANIEL FERNADEZ MARCA', 'ci' => 4005710],
+            ['full_name' => 'CARLOS JESUS RAMIREZ CHOQUEVILLCA', 'ci' => 6699597]
+        ];
+
+        // 2) CUSTOMERS: 'person' es el indice de la persona en el arreglo $people
+        $customers = [
+            ['person' => 0, 'codigo' => 2018652, 'tipo' => 'PATENTE', 'fecha' => '2020-03-20', 'cooperative_id' => 1],
+            ['person' => 1, 'codigo' => 2018653, 'tipo' => 'PATENTE', 'fecha' => '2020-03-20', 'cooperative_id' => 2],
+            ['person' => 2, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 3],
+            ['person' => 3, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 4],
+            ['person' => 3, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 4, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 3],
+            ['person' => 5, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 6, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 6],
+            ['person' => 7, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-03', 'cooperative_id' => 4],
+            ['person' => 8, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 9, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 6],
+            ['person' => 10, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 11, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 12, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 7],
+            ['person' => 13, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 14, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 15, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 16, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 17, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 18, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 19, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 20, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 21, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 22, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 23, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 24, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 25, 'codigo' => 1002063, 'tipo' => 'PATENTE', 'fecha' => '2026-03-03', 'cooperative_id' => 5],
+            ['person' => 26, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 27, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-03', 'cooperative_id' => 5],
+            ['person' => 28, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 29, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 30, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 31, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 32, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-03', 'cooperative_id' => 6],
+            ['person' => 33, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-04', 'cooperative_id' => 6],
+            ['person' => 34, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 35, 'codigo' => 1002062, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 5],
+            ['person' => 36, 'codigo' => 2005001, 'tipo' => 'PATENTE', 'fecha' => '2026-01-16', 'cooperative_id' => 8],
+            ['person' => 37, 'codigo' => 2005001, 'tipo' => 'PATENTE', 'fecha' => '2026-01-16', 'cooperative_id' => 8],
+            ['person' => 38, 'codigo' => 2005001, 'tipo' => 'PATENTE', 'fecha' => '2026-03-02', 'cooperative_id' => 9],
+            ['person' => 39, 'codigo' => 2023579, 'tipo' => 'PATENTE', 'fecha' => '2023-06-20', 'cooperative_id' => 10],
+            ['person' => 40, 'codigo' => 2023580, 'tipo' => 'PATENTE', 'fecha' => '2023-06-21', 'cooperative_id' => 11],
+            ['person' => 41, 'codigo' => 2017464, 'tipo' => 'PATENTE', 'fecha' => '2025-06-11', 'cooperative_id' => 12],
+            ['person' => 42, 'codigo' => 2005494, 'tipo' => 'PATENTE', 'fecha' => '2022-01-06', 'cooperative_id' => 13],
+            ['person' => 43, 'codigo' => 2005495, 'tipo' => 'PATENTE', 'fecha' => '2022-01-07', 'cooperative_id' => 14],
+            ['person' => 44, 'codigo' => 2007186, 'tipo' => 'PATENTE', 'fecha' => '2024-03-17', 'cooperative_id' => 15],
+            ['person' => 45, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-01-18', 'cooperative_id' => 16],
+            ['person' => 46, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-28', 'cooperative_id' => 17],
+            ['person' => 47, 'codigo' => 2017464, 'tipo' => 'PATENTE', 'fecha' => '2025-06-11', 'cooperative_id' => 12],
+            ['person' => 48, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-01-18', 'cooperative_id' => 18],
+            ['person' => 49, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-01-18', 'cooperative_id' => 18],
+            ['person' => 50, 'codigo' => 2017464, 'tipo' => 'CONTRATO', 'fecha' => '2025-06-11', 'cooperative_id' => 19],
+            ['person' => 51, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-01-18', 'cooperative_id' => 18],
+            ['person' => 52, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 20],
+            ['person' => 53, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-02', 'cooperative_id' => 20],
+            ['person' => 54, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-03', 'cooperative_id' => 21],
+            ['person' => 55, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-06-09', 'cooperative_id' => 22],
+            ['person' => 56, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-06-10', 'cooperative_id' => 22],
+            ['person' => 57, 'codigo' => null, 'tipo' => 'PATENTE', 'fecha' => '2022-12-19', 'cooperative_id' => 23],
+            ['person' => 58, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2023-12-19', 'cooperative_id' => 24],
+            ['person' => 59, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 25],
+            ['person' => 60, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-02', 'cooperative_id' => 26],
+            ['person' => 61, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 27],
+            ['person' => 62, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 26],
+            ['person' => 63, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 26],
+            ['person' => 64, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 28],
+            ['person' => 65, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 26],
+            ['person' => 66, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-02', 'cooperative_id' => 26],
+            ['person' => 67, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 26],
+            ['person' => 68, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 25],
+            ['person' => 69, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 29],
+            ['person' => 70, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-02', 'cooperative_id' => 26],
+            ['person' => 71, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 29],
+            ['person' => 72, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-02', 'cooperative_id' => 26],
+            ['person' => 73, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 25],
+            ['person' => 74, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 26],
+            ['person' => 75, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 30],
+            ['person' => 76, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-07-01', 'cooperative_id' => 31],
+            ['person' => 77, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 78, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 79, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 80, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 81, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 82, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 83, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 84, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 85, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 86, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31],
+            ['person' => 41, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => '2022-06-27', 'cooperative_id' => 32],
+            ['person' => 87, 'codigo' => null, 'tipo' => 'CONTRATO', 'fecha' => null, 'cooperative_id' => 31]
+        ];
+
+        DB::transaction(function () use ($people, $customers) {
+            $ids = [];
+
+            foreach ($people as $i => $person) {
+                // si ya existe no se vuelve a insertar (evita duplicados al re-ejecutar)
+                $query = DB::table('people')->where('full_name', $person['full_name']);
+                $existing = $person['ci'] === null
+                    ? $query->whereNull('ci')->value('id')
+                    : $query->where('ci', $person['ci'])->value('id');
+
+                $ids[$i] = $existing ?? DB::table('people')->insertGetId([
+                    'full_name' => $person['full_name'],
+                    'ci'        => $person['ci'],
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            foreach ($customers as $customer) {
+                DB::table('customers')->insert([
+                    'person_id'      => $ids[$customer['person']],
+                    'codigo'         => $customer['codigo'],
+                    'tipo'           => $customer['tipo'],
+                    'fecha'          => $customer['fecha'],
+                    'cooperative_id' => $customer['cooperative_id'],
+                    'created_at'     => now(),
+                    'updated_at'     => now(),
+                ]);
+            }
+        });
+    }
+}

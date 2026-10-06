@@ -11,7 +11,18 @@ class Customer extends Model
 {
     use HasFactory;
 
+    public const TIPOS = ['PATENTE', 'CONTRATO'];
+
+    public const TIPO_VIGENCIA_MESES = [
+        'PATENTE' => 12,
+        'CONTRATO' => 180,
+    ];
+
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'fecha' => 'date',
+    ];
 
     public function person(): BelongsTo
     {
@@ -41,5 +52,20 @@ class Customer extends Model
     public function getPhoneAttribute(): ?string
     {
         return $this->person?->phone;
+    }
+
+    public function getTipoColorAttribute(): ?string
+    {
+        if (! $this->tipo) {
+            return null;
+        }
+
+        if (! $this->fecha) {
+            return 'red';
+        }
+
+        $meses = self::TIPO_VIGENCIA_MESES[$this->tipo] ?? 0;
+
+        return $this->fecha->copy()->addMonthsNoOverflow($meses)->isFuture() ? 'green' : 'red';
     }
 }

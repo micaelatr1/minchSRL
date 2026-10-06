@@ -3,9 +3,20 @@
 
     <div>
         <x-table :$headers :$rows filter paginate loading id="customers">
+            @interact('column_tipo', $row)
+                @if ($row->tipo)
+                    <span @class([
+                        'font-semibold',
+                        'text-red-500 dark:text-red-400' => $row->tipo_color === 'red',
+                        'text-green-600 dark:text-green-400' => $row->tipo_color === 'green',
+                    ])>{{ $row->tipo }}</span>
+                @endif
+            @endinteract
             @interact('column_file', $row)
                 @if ($row->file_path)
-                    <a href="{{ $row->file_path }}" target="_blank" class="text-primary-600 hover:text-primary-800 underline text-sm">{{ $row->file }}</a>
+                    <x-button.circle icon="document-arrow-down" color="primary" light :href="$row->file_path" target="_blank" title="Ver archivo" />
+                @else
+                    <span class="text-gray-400 dark:text-dark-500">—</span>
                 @endif
             @endinteract
             @interact('column_action', $row)
